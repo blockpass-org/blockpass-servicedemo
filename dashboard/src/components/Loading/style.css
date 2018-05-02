@@ -1,0 +1,14 @@
+.fullScreenLoading {
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0,0,0,.08);
+    transition: opacity 1s ease .5s,z-index .1s ease 1.5s;
+    z-index: 2;
+}

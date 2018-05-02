@@ -1,0 +1,31 @@
+{
+  "name": "dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.3.1",
+    "ethjs": "^0.3.6",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "superagent": "3.8.2"
+  },
+  "scripts": {
+    "start": "sh -ac '. ./.env; react-app-rewired start'",
+    "build": "printenv && react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.6.7",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "react-app-rewired": "^1.5.0",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^7.0.1"
+  },
+  "homepage": "http://localhost:3000/dashboard",
+  "proxy": "http://localhost:3000"
+}

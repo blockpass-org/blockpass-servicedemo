@@ -1,0 +1,16 @@
+.account-setting {
+    &__button {
+        width: 100%;
+    }
+
+    .ant-row {
+        @media screen and (min-width: 576px) {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .ant-form-item-label {
+        padding: 0;
+    }
+}

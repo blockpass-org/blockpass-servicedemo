@@ -1,0 +1,13 @@
+
+.logout {
+    font-size: 20px;
+    line-height: 64px;
+    padding-right: 24px;
+    cursor: pointer;
+    transition: color .3s;
+    float: right
+  }
+  
+  .logout:hover {
+    color: #1890ff;
+  }

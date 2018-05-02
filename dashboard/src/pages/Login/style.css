@@ -1,0 +1,32 @@
+.loginPanel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -160px 0 0 -160px;
+    width: 320px;
+    height: 320px;
+    padding: 36px;
+    -webkit-box-shadow: 0 0 100px rgba(0,0,0,.08);
+    box-shadow: 0 0 100px rgba(0,0,0,.08);
+}
+
+.loginPanelHeader {
+    padding-bottom: 20px;
+}
+
+.loginTitle {
+    vertical-align: text-bottom;
+    font-size: 16px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-weight: 700;
+    color: #1890ff;
+}
+
+.login-form {
+    max-width: 300px;
+}
+
+.login-form-button {
+    width: 100%
+}

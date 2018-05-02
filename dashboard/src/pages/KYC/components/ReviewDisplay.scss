@@ -1,0 +1,13 @@
+.review-button {
+    &__wrapper {
+        padding-left: 10px;
+
+        @media screen and (max-width: 768px) {
+            padding: 10px;
+        }
+    }
+
+    &__button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "service-demo",
+  "version": "1.0.0",
+  "description": "Blockpass demo 3rd service",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha ./test/**/*.test.js --exit",
+    "test-cov": "nyc npm run test",
+    "dev": "sh -ac '. ./.env; nodemon app.js'",
+    "prod": "NODE_ENV=production node app.js",
+    "start-docker": "cd ./tools/dockercompose && sh run-dev.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinnhlt-ibl/bp-service-demo.git"
+  },
+  "author": "Blockpass",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "cors": "^2.8.4",
+    "express": "4.16.3",
+    "express-fileupload": "0.4.0",
+    "express-restify-mongoose": "4.3.0",
+    "gridfs-stream": "^1.1.1",
+    "jsonwebtoken": "8.2.0",
+    "merkle": "^0.6.0",
+    "mongoose": "5.0.11",
+    "multer": "1.3.0",
+    "superagent": "3.8.2",
+    "uniqid": "4.1.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "chai-http": "^4.0.0",
+    "faker": "^4.1.0",
+    "mocha": "5.0.4",
+    "nock": "^9.2.5",
+    "nodemon": "1.14.11",
+    "nyc": "11.6.0",
+    "pow-mongoose-fixtures": "0.3.0",
+    "sinon": "^4.4.10"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "tools/**",
+      "test/**",
+      "public/**"
+    ],
+    "delay": "1000"
+  },
+  "nyc": {
+    "include": [
+      "controllers/**",
+      "middlewares/**",
+      "models/**",
+      "utils/**",
+      "configs/**",
+      "cores/**"
+    ],
+    "all": false,
+    "cache": false,
+    "sourceMap": false,
+    "instrument": true,
+    "report-dir": "./coverage",
+    "reporter": [
+      "html",
+      "lcov",
+      "text"
+    ]
+  }
+}
