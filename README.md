@@ -19,3 +19,6 @@
 - BLOCKPASS_BASE_URL: Blockpass api url
 - BLOCKPASS_CLIENT_ID: Blockpass clientId
 - BLOCKPASS_SECRET_ID: Blockpass secretId
+
+# License
+ApacheV2
