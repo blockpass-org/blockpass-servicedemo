@@ -1,7 +1,7 @@
 // This should match with Blockpass server definded
-const REQUIRED_FIELDS = ["family_name", "given_name", "phone", "email"];
+const REQUIRED_FIELDS = ["email"];
 const OPTIONAL_CERTS = ["[cer]onfido"];
-const OPTIONAL_FIELDS = ["selfie", "passport", "proof_of_address"];
+const OPTIONAL_FIELDS = ["selfie", "passport", "proof_of_address", "family_name", "given_name", "phone"];
 const FIELD_TYPE_MAPS = {
     "selfie": "file",
     "passport": "file",
