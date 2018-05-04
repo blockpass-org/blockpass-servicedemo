@@ -38,7 +38,7 @@ describe("blockpass register flow", function () {
             .field('given_name', faker.name.lastName())
             .field('phone', faker.phone.phoneNumber())
             .attach('selfie', __dirname +'/avatar.jpeg')
-            // .field('email', faker.internet.email())
+            .field('email', faker.internet.email())
 
         const step2 = await req;
 
@@ -97,7 +97,7 @@ describe("blockpass register flow", function () {
             .field('slugList', REQUIRED_FIELDS)
             .field('family_name', faker.name.firstName())
             .field('given_name', faker.name.lastName())
-            // .field('email', faker.internet.email())
+            .field('email', faker.internet.email())
 
         const step2 = await req;
 
@@ -131,7 +131,7 @@ describe("blockpass register flow", function () {
             .field('slugList', [])
             .field('family_name', faker.name.firstName())
             .field('given_name', faker.name.lastName())
-            // .field('email', faker.internet.email())
+            .field('email', faker.internet.email())
 
         const step2 = await req;
 

@@ -77,7 +77,7 @@ describe("blockpass login flow", function () {
             .field('family_name', faker.name.firstName())
             .field('given_name', faker.name.lastName())
             .field('phone', faker.phone.phoneNumber())
-            // .field('email', faker.internet.email())
+            .field('email', faker.internet.email())
 
         const step2 = await req;
 

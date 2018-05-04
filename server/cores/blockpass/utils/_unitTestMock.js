@@ -81,3 +81,15 @@ module.exports.mockQueryRefreshToken = function (baseUrl, response = null) {
         })
         .reply(200, response)
 }
+
+module.exports.mockQueryServiceMetadata = function (baseUrl, serviceId, response) {
+    nock(baseUrl)
+        .get(api.META_DATA_PATH + serviceId)
+        .reply(200, response)
+}
+
+module.exports.mockQueryCertificateSchema = function (baseUrl, cerId, response) {
+    nock(baseUrl)
+        .get(api.CERTIFICATE_SCHEMA + cerId)
+        .reply(200, response)
+}

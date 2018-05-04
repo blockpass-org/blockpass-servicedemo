@@ -1,6 +1,7 @@
 // This should match with Blockpass server definded
-const REQUIRED_FIELDS = ["email"];
-const OPTIONAL_FIELDS = ["selfie", "passport", "proof_of_address", "family_name", "given_name", "phone"]
+const REQUIRED_FIELDS = ["family_name", "given_name", "phone", "email"];
+const OPTIONAL_CERTS = ["[cer]onfido"];
+const OPTIONAL_FIELDS = ["selfie", "passport", "proof_of_address"];
 const FIELD_TYPE_MAPS = {
     "selfie": "file",
     "passport": "file",
@@ -33,6 +34,7 @@ const CROSS_DB_FIELD_MAPS_INVERSE = swap(CROSS_DB_FIELD_MAPS)
 
 module.exports = {
     REQUIRED_FIELDS,
+    OPTIONAL_CERTS,
     OPTIONAL_FIELDS,
     CROSS_DB_FIELD_MAPS,
     FIELD_TYPE_MAPS,

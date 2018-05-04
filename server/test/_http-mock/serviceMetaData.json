@@ -1,0 +1,94 @@
+{
+    "_id": "5ab378872128392d6e8350ca",
+    "levelRequirement": "1",
+    "status": "active",
+    "userServiceRegister": null,
+    "appid": {
+        "android": "",
+        "ios": ""
+    },
+    "order": 1,
+    "deeplink": {
+        "android": "",
+        "ios": ""
+    },
+    "rating": "",
+    "isRegistered": false,
+    "uploadEndpoint": {
+        "callbackUrls": [],
+        "endpoint": "",
+        "website": ""
+    },
+    "extras": [],
+    "images": {
+        "banner": "",
+        "backdrop": "",
+        "thumbnail": "http://graph.facebook.com/1014603979/picture?type=square",
+        "logo": "http://graph.facebook.com/1014603979/picture?type=large"
+    },
+    "contacts": {
+        "language": [],
+        "address": "",
+        "country": "",
+        "googlePlus": "",
+        "twitter": "",
+        "facebook": "",
+        "email": "",
+        "website": ""
+    },
+    "certificate": [
+        "demo-service-cert"
+    ],
+    "requirementDetail": [],
+    "requirement": [
+        {
+            "_id": "593f6c1b8d8ea62172a081f1",
+            "cat": "info",
+            "slug": "family_name",
+            "name": "Family Name"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f2",
+            "cat": "info",
+            "slug": "given_name",
+            "name": "Given Name"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f5",
+            "cat": "info",
+            "slug": "phone",
+            "name": "Phone number"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f7",
+            "cat": "file",
+            "slug": "selfie",
+            "name": "Selfie"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f9",
+            "cat": "info",
+            "slug": "email",
+            "name": "Email"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f6",
+            "cat": "file",
+            "slug": "passport",
+            "name": "Passport"
+        },
+        {
+            "_id": "593f6c1b8d8ea62172a081f8",
+            "cat": "file",
+            "slug": "proof_of_address",
+            "name": "Proof of address"
+        }
+    ],
+    "slug": "demo-9110-1521001789121",
+    "tags": [],
+    "clientId": "3rd_service_demo",
+    "longDescription": "",
+    "shortDescription": "3rd service demo",
+    "isin": "",
+    "name": "3rd Service Demo"
+}

@@ -27,7 +27,10 @@ module.exports = function (router, serverSdk) {
 
                 let blockPassFieldName = slugList.map(itm => CROSS_DB_FIELD_MAPS_INVERSE[itm])
                 console.log(CROSS_DB_FIELD_MAPS_INVERSE, slugList, blockPassFieldName)
-                const bpResponse = await serverSdk.queryProofOfPath(kyc.bpToken, blockPassFieldName)
+                const bpResponse = await serverSdk.queryProofOfPath({
+                    kycToken: kyc.bpToken, 
+                    slugList: blockPassFieldName
+                })
 
                 if (!bpResponse)
                     return utils.responseError(res, 500, 'Block pass query proof error')

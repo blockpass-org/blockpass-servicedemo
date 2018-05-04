@@ -8,7 +8,7 @@ const RequireToken = require('../../middlewares/requireToken');
 const KYCModel = require('../../models/KYCModel');
 const CertificateModel = require('../../models/CertificateModel');
 const router = express.Router()
-const { REQUIRED_FIELDS, OPTIONAL_FIELDS, CROSS_DB_FIELD_MAPS, FIELD_TYPE_MAPS } = require('./_config');
+const { REQUIRED_FIELDS, OPTIONAL_FIELDS, OPTIONAL_CERTS, CROSS_DB_FIELD_MAPS, FIELD_TYPE_MAPS } = require('./_config');
 
 const upload = multer();
 const GridFsFileStorage = require('../../models/GridFsFileStorage');
@@ -17,6 +17,7 @@ const GridFsFileStorage = require('../../models/GridFsFileStorage');
 //  Blockpass Server SDK
 //-------------------------------------------------------------------------
 const serverSdk = new BlockPassServerSDK({
+    baseUrl: config.BLOCKPASS_BASE_URL,
     clientId: config.BLOCKPASS_CLIENT_ID,
     secretId: config.BLOCKPASS_SECRET_ID,
     requiredFields: REQUIRED_FIELDS,
@@ -26,15 +27,68 @@ const serverSdk = new BlockPassServerSDK({
     findKycById: findKycById,
     createKyc: createKyc,
     updateKyc: updateKyc,
-    needRecheckExitingKyc: needRecheckExitingKyc,
+    queryKycStatus: queryKycStatus,
+
+    needRecheckExistingKyc: needRecheckExistingKyc,
     generateSsoPayload: generateSsoPayload
-    
+
 })
 //-------------------------------------------------------------------------
 //  Logic Handler
 //-------------------------------------------------------------------------
 async function findKycById(kycId) {
     return await KYCModel.findOne({ blockPassID: kycId }).exec()
+}
+
+//-------------------------------------------------------------------------
+async function queryKycStatus({ kycRecord }) {
+
+    const identitiesStatus = []
+    REQUIRED_FIELDS.forEach(key => {
+        const slug = key
+        const dbField = CROSS_DB_FIELD_MAPS[key]
+        const val = kycRecord[dbField]
+        identitiesStatus.push({
+            slug,
+            status: val ? "recieved" : "missing",
+            comment: ''
+        })
+    })
+
+    OPTIONAL_FIELDS.forEach(key => {
+        const slug = key
+        const dbField = CROSS_DB_FIELD_MAPS[key]
+        const val = kycRecord[dbField]
+
+        if (val) {
+            identitiesStatus.push({
+                slug,
+                status: val ? "recieved" : "missing",
+                comment: ''
+            })
+        }
+    })
+
+    const certsStatus = []
+    OPTIONAL_CERTS.forEach(key => {
+        const slug = key.replace('[cer]', '')
+        const dbField = CROSS_DB_FIELD_MAPS[key]
+        const val = kycRecord[dbField]
+        if (val)
+            certsStatus.push({
+                slug,
+                status: val ? "recieved" : "missing",
+                comment: ''
+            })
+    })
+
+    return {
+        status: kycRecord.status,
+        identities: identitiesStatus,
+        certificates: certsStatus,
+        message: "",
+        createdDate: kycRecord.createdAt
+    }
 }
 
 //-------------------------------------------------------------------------
@@ -96,7 +150,7 @@ async function updateKyc({
 //  - Periodical Check approved record
 //  - Submit more data
 //-------------------------------------------------------------------------
-async function needRecheckExitingKyc({ kycProfile, kycRecord, payload }) {
+async function needRecheckExistingKyc({ kycProfile, kycRecord, payload }) {
 
     if (!(kycRecord.fristName && kycRecord.phone && kycRecord.lastName))
         return {
@@ -175,6 +229,20 @@ router.post('/api/register', RequireParams(["code"]), async (req, res) => {
         const sessionCode = req.body.sessionCode;
 
         const payload = await serverSdk.registerFlow({ code })
+        return res.json(payload)
+    } catch (ex) {
+        console.log(ex);
+        return utils.responseError(res, 403, ex.message)
+    }
+})
+
+//-------------------------------------------------------------------------
+router.post('/api/status', RequireParams(["code"]), async (req, res) => {
+    try {
+        const code = req.body.code
+        const sessionCode = req.body.sessionCode;
+
+        const payload = await serverSdk.queryStatusFlow({ code })
         return res.json(payload)
     } catch (ex) {
         console.log(ex);
