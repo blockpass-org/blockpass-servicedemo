@@ -25,7 +25,7 @@ RUN yarn run build --production
 #                   Package
 #------------------------------------------------------
 
-FROM node:carbon-alpine
+FROM node:carbon
 
 WORKDIR /usr/app
 
@@ -33,7 +33,7 @@ COPY ./server/package.json .
 COPY ./server/yarn.lock .
 COPY ./server/package-lock.json .
 
-RUN yarn install --quiet --production && yarn cache clean
+RUN yarn install --production --quiet && yarn cache clean
 
 COPY ./server .
 
