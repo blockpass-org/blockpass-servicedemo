@@ -6,7 +6,7 @@ const FormItem = Form.Item;
 
 const FORM_FIELDS = [
     {
-        fieldName: 'identities.photo',
+        fieldName: 'identities.picture',
         displayName: 'Photo',
         onCustomRender: (data) => {
             const url = data ? translatePictureUrl(data) : `${process.env.PUBLIC_URL}/no-image.jpg`
