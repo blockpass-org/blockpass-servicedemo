@@ -6,33 +6,89 @@ const BlockPassServerSDK = require('../../cores/blockpass/ServerSdk');
 const RequireParams = require('../../middlewares/requireParams');
 const RequireToken = require('../../middlewares/requireToken');
 const KYCModel = require('../../models/KYCModel');
+const SettingModel = require('../../models/SettingModel');
+const Events = require('../../models/events');
 const CertificateModel = require('../../models/CertificateModel');
 const router = express.Router()
-const { REQUIRED_FIELDS, OPTIONAL_FIELDS, OPTIONAL_CERTS, CROSS_DB_FIELD_MAPS, FIELD_TYPE_MAPS } = require('./_config');
+const { CROSS_DB_FIELD_MAPS } = require('./_config');
 
 const upload = multer();
 const GridFsFileStorage = require('../../models/GridFsFileStorage');
 
+let serverSdk
+let currentSettings;
+
 //-------------------------------------------------------------------------
 //  Blockpass Server SDK
 //-------------------------------------------------------------------------
-const serverSdk = new BlockPassServerSDK({
-    baseUrl: config.BLOCKPASS_BASE_URL,
-    clientId: config.BLOCKPASS_CLIENT_ID,
-    secretId: config.BLOCKPASS_SECRET_ID,
-    requiredFields: REQUIRED_FIELDS,
-    optionalFields: OPTIONAL_FIELDS,
 
-    // Custom implement
-    findKycById: findKycById,
-    createKyc: createKyc,
-    updateKyc: updateKyc,
-    queryKycStatus: queryKycStatus,
+function getServerSdk() {
+    return serverSdk
+}
 
-    needRecheckExistingKyc: needRecheckExistingKyc,
-    generateSsoPayload: generateSsoPayload
+function _parseSettings(settings) {
+    const { fields } = settings;
+    const requiredFields = fields[0].value.split(',')
+    const optionalFields = fields[1].value.split(',')
+    const certs = fields[2].value.split(',')
 
+    return {
+        requiredFields,
+        optionalFields,
+        certs
+    }
+}
+
+function _initNewSdk({ requiredFields, optionalFields, certs }) {
+    utils.activityLog('[blockpass-sdk-init]', { requiredFields, optionalFields, certs })
+
+    serverSdk = new BlockPassServerSDK({
+        baseUrl: config.BLOCKPASS_BASE_URL,
+        clientId: config.BLOCKPASS_CLIENT_ID,
+        secretId: config.BLOCKPASS_SECRET_ID,
+        requiredFields: requiredFields,
+        optionalFields: optionalFields,
+        certs: certs,
+
+        // Custom implement
+        findKycById: findKycById,
+        createKyc: createKyc,
+        updateKyc: updateKyc,
+        queryKycStatus: queryKycStatus,
+
+        needRecheckExistingKyc: needRecheckExistingKyc,
+        generateSsoPayload: generateSsoPayload
+    })
+}
+
+function refreshSettings() {
+    SettingModel.findById('blockpass-settings').exec()
+        .then(settings => {
+
+            // 1st time setup
+            if (!settings) {
+                _initNewSdk({
+                    requiredFields: config.DEFAULT_REQUIRED_FIELDS,
+                    optionalFields: config.DEFAULT_OPTIONAL_FIELDS,
+                    certs: config.DEFAULT_CERTS
+                })
+                return;
+            }
+
+            currentSettings = _parseSettings(settings);
+            const { requiredFields, optionalFields, certs } = currentSettings;
+
+            _initNewSdk({ requiredFields, optionalFields, certs })
+        })
+}
+
+// 1st refresh settings
+refreshSettings();
+Events.sub('onSettingChange', key => {
+    if (key === 'blockpass-settings')
+        refreshSettings();
 })
+
 //-------------------------------------------------------------------------
 //  Logic Handler
 //-------------------------------------------------------------------------
@@ -44,43 +100,46 @@ async function findKycById(kycId) {
 async function queryKycStatus({ kycRecord }) {
 
     const identitiesStatus = []
-    REQUIRED_FIELDS.forEach(key => {
+    serverSdk.requiredFields.forEach(key => {
         const slug = key
         const dbField = CROSS_DB_FIELD_MAPS[key]
-        const val = kycRecord[dbField]
+        const status = kycRecord.fieldStatus(dbField)
+
         identitiesStatus.push({
             slug,
-            status: val ? "recieved" : "missing",
-            comment: ''
+            ...status
         })
     })
 
-    OPTIONAL_FIELDS.forEach(key => {
+    serverSdk.optionalFields.forEach(key => {
         const slug = key
         const dbField = CROSS_DB_FIELD_MAPS[key]
-        const val = kycRecord[dbField]
+        const val = kycRecord.identities[dbField]
+        const status = kycRecord.fieldStatus(dbField)
 
         if (val) {
             identitiesStatus.push({
                 slug,
-                status: val ? "recieved" : "missing",
-                comment: ''
+                ...status
             })
         }
     })
 
     const certsStatus = []
-    OPTIONAL_CERTS.forEach(key => {
-        const slug = key.replace('[cer]', '')
-        const dbField = CROSS_DB_FIELD_MAPS[key]
-        const val = kycRecord[dbField]
-        if (val)
-            certsStatus.push({
-                slug,
-                status: val ? "recieved" : "missing",
-                comment: ''
-            })
-    })
+    if (kycRecord.certs) {
+        serverSdk.certs.forEach(key => {
+            const slug = key
+            const dbField = CROSS_DB_FIELD_MAPS[key]
+            const val = kycRecord.certs[dbField]
+            const status = kycRecord.certStatus(dbField)
+
+            if (val)
+                certsStatus.push({
+                    slug,
+                    ...status
+                })
+        })
+    }
 
     return {
         status: kycRecord.status,
@@ -96,9 +155,11 @@ async function createKyc({ kycProfile }) {
     const { id, smartContractId, rootHash, isSynching } = kycProfile;
     const newIns = new KYCModel({
         blockPassID: id,
-        rootHash,
-        smartContractId,
-        isSynching
+        bpProfile: {
+            rootHash,
+            smartContractId,
+            isSynching
+        }
     })
 
     return await newIns.save()
@@ -119,8 +180,17 @@ async function updateKyc({
 
         const metaData = userRawData[key];
 
-        if (metaData.type == 'string')
-            return kycRecord[CROSS_DB_FIELD_MAPS[key]] = metaData.value
+        if (metaData.type == 'string') {
+
+            // update certificate
+            if (metaData.isCert) {
+                if (kycRecord.certs == null)
+                    kycRecord.certs = {}
+                return kycRecord.certs[CROSS_DB_FIELD_MAPS[key]] = metaData.value
+            }
+            else
+                return kycRecord.identities[CROSS_DB_FIELD_MAPS[key]] = metaData.value
+        }
 
         const { buffer, originalname } = metaData;
         const ext = originalname.split('.')[1];
@@ -131,15 +201,15 @@ async function updateKyc({
             fileBuffer: buffer
         })
 
-        return kycRecord[CROSS_DB_FIELD_MAPS[key]] = fileHandler._id
+        return kycRecord.identities[CROSS_DB_FIELD_MAPS[key]] = fileHandler._id
     })
 
     const waitingJob = await Promise.all(jobs);
 
     kycRecord.bpToken = kycToken
-    kycRecord.rootHash = rootHash
-    kycRecord.smartContractId = smartContractId
-    kycRecord.isSynching = isSynching
+    kycRecord.bpProfile.rootHash = rootHash
+    kycRecord.bpProfile.smartContractId = smartContractId
+    kycRecord.bpProfile.isSynching = isSynching
 
     return await kycRecord.save()
 }
@@ -152,12 +222,22 @@ async function updateKyc({
 //-------------------------------------------------------------------------
 async function needRecheckExistingKyc({ kycProfile, kycRecord, payload }) {
 
-    if (!(kycRecord.fristName && kycRecord.phone && kycRecord.lastName))
+    const missingList = []
+    serverSdk.requiredFields.forEach(key => {
+        const slug = key
+        const dbField = CROSS_DB_FIELD_MAPS[key]
+        const status = kycRecord.fieldStatus(dbField)
+        if (status.status === "missing")
+            missingList.push(key)
+    })
+
+    if (missingList.length !== 0)
         return {
             ...payload,
             nextAction: 'upload',
-            requiredFields: REQUIRED_FIELDS,
-            optionalFields: OPTIONAL_FIELDS,
+            requiredFields: missingList,
+            optionalFields: [],
+            certs: serverSdk.certs,
         }
 
     return payload;
@@ -165,8 +245,20 @@ async function needRecheckExistingKyc({ kycProfile, kycRecord, payload }) {
 
 //-------------------------------------------------------------------------
 async function generateSsoPayload({ kycProfile, kycRecord, kycToken, payload }) {
+
+    const { etherAddress } = kycRecord;
+    const servicePayload = {
+        action: 'none',
+        accessToken: kycRecord._id
+    }
+
+    if (!etherAddress) {
+        servicePayload.action = 'submit-extra'
+    }
+
     return {
-        _id: kycRecord._id,
+        ...servicePayload,
+        record: kycRecord.toObject(),
     }
 }
 
@@ -185,9 +277,15 @@ router.post('/api/uploadData',
             const userRawData = {}
 
             Object.keys(userRawFields).forEach(key => {
+                const originalKey = key
+                const isCert = key.startsWith('[cer]')
+                if (isCert)
+                    key = key.slice('[cer]'.length)
+
                 userRawData[key] = {
                     type: 'string',
-                    value: userRawFields[key]
+                    value: userRawFields[originalKey],
+                    isCert
                 }
             })
 
@@ -265,8 +363,8 @@ router.get('/', (req, res) => {
 })
 
 // sub modules
-require('./certificate')(router, serverSdk)
-require('./review')(router, serverSdk)
-require('./validation')(router, serverSdk)
+require('./certificate')(router, getServerSdk)
+require('./review')(router, getServerSdk)
+require('./validation')(router, getServerSdk)
 
 module.exports = router

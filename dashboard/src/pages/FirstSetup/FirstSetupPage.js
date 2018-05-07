@@ -8,10 +8,6 @@ import './style.css';
 
 const FormItem = Form.Item;
 
-const ETHER_NETWORKS = [
-    "Rinkeby",
-    "MainNet"
-]
 
 @inject("ApplicationStore", "Auth")
 class FirstSetupPage extends Component {
@@ -30,14 +26,12 @@ class FirstSetupPage extends Component {
             if (!err) {
 
                 console.log(values);
-                const { deployKey, adminPass, SmartContractAddress, SmartContractEnv } = values;
+                const { deployKey, adminPass } = values;
 
                 const setupRequest = await ApplicationStore.firstTimeSetup({
                     deployKey,
                     settings: {
-                        adminPass,
-                        SmartContractAddress,
-                        SmartContractEnv
+                        adminPass
                     }
                 })
 
@@ -73,25 +67,6 @@ class FirstSetupPage extends Component {
                             rules: [{ required: true, message: 'Please input your adminPass!' }],
                         })(
                             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} autoComplete="off" type="password" placeholder="New Admin Pass" />
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('SmartContractAddress', {
-                            rules: [{ required: true, message: 'Please input your SmartContractAddress' }],
-                        })(
-                            <Input prefix={<Icon type="setting" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="SmartContractAddress" />
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('SmartContractEnv', {
-                            rules: [{ required: true, message: 'Please input your Etherium Networks' }],
-                            initialValue: ETHER_NETWORKS[0]
-                        })(
-                            <Select>
-                                {ETHER_NETWORKS.map((itm, i) => {
-                                    return <Select.Option key={i} value={itm}> {itm} </Select.Option>
-                                })}
-                            </Select>
                         )}
                     </FormItem>
                     <FormItem>

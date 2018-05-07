@@ -1,15 +1,15 @@
 import React from 'react';
 import { Form, Input, Button, Avatar } from 'antd';
-import { translatePictureUrl } from '../../../utils';
+import { translatePictureUrl, getObjectValueFromPath } from '../../../utils';
 
 const FormItem = Form.Item;
 
 const FORM_FIELDS = [
     {
-        fieldName: 'photo',
+        fieldName: 'identities.photo',
         displayName: 'Photo',
         onCustomRender: (data) => {
-            const url = data.picture ? translatePictureUrl(data.picture) : `${process.env.PUBLIC_URL}/no-image.jpg`
+            const url = data ? translatePictureUrl(data) : `${process.env.PUBLIC_URL}/no-image.jpg`
             console.log(url);
             return <Avatar shape="square" size='large' src={url} style={{
                 width: 200,
@@ -28,7 +28,7 @@ const FORM_FIELDS = [
         onCustomRender: _ => <Input disabled />,
     },
     {
-        fieldName: 'fristName',
+        fieldName: 'identities.fristName',
         displayName: 'FirstName',
         validateFirst: true,
         rules: [{
@@ -37,7 +37,7 @@ const FORM_FIELDS = [
         onCustomRender: _ => <Input readOnly />,
     },
     {
-        fieldName: 'lastName',
+        fieldName: 'identities.lastName',
         displayName: 'LastName',
         validateFirst: true,
         rules: [{
@@ -46,7 +46,7 @@ const FORM_FIELDS = [
         onCustomRender: _ => <Input readOnly />,
     },
     {
-        fieldName: 'email',
+        fieldName: 'identities.email',
         displayName: 'Email',
         validateFirst: true,
         rules: [{
@@ -57,7 +57,7 @@ const FORM_FIELDS = [
         onCustomRender: _ => <Input readOnly />,
     },
     {
-        fieldName: 'phone',
+        fieldName: 'identities.phone',
         displayName: 'Phone',
         validateFirst: true,
         rules: [{
@@ -71,11 +71,10 @@ const FORM_FIELDS = [
         onCustomRender: _ => <Input readOnly />,
     },
     {
-        fieldName: 'passport',
+        fieldName: 'identities.passport',
         displayName: 'Passport',
         onCustomRender: (data) => {
-            const url = data.picture ? translatePictureUrl(data.passport) : `${process.env.PUBLIC_URL}/no-image.jpg`
-            console.log(url);
+            const url = (data) ? translatePictureUrl(data) : `${process.env.PUBLIC_URL}/no-image.jpg`
             return <Avatar shape="square" size='large' src={url} style={{
                 width: 100,
                 height: 100
@@ -83,11 +82,10 @@ const FORM_FIELDS = [
         }
     },
     {
-        fieldName: 'proofOfAddress',
+        fieldName: 'identities.proofOfAddress',
         displayName: 'ProofOfAddress',
         onCustomRender: (data) => {
-            const url = data.picture ? translatePictureUrl(data.proofOfAddress) : `${process.env.PUBLIC_URL}/no-image.jpg`
-            console.log(url);
+            const url = (data) ? translatePictureUrl(data) : `${process.env.PUBLIC_URL}/no-image.jpg`
             return <Avatar shape="square" size='large' src={url} style={{
                 width: 100,
                 height: 100
@@ -95,7 +93,7 @@ const FORM_FIELDS = [
         }
     },
     {
-        fieldName: 'onfidoCertificate',
+        fieldName: 'certs.onfidoCertificate',
         displayName: 'OnfidoCertificate',
         validateFirst: true,
         rules: [],
@@ -130,14 +128,13 @@ class UserDetailDisplay extends React.PureComponent {
         const { data } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { hasNext } = this.props;
-
         return <Form onSubmit={this._handleSubmit}  >
             {
-                FORM_FIELDS.map((fieldInfo, i) => {
+                data && data.identities && FORM_FIELDS.map((fieldInfo, i) => {
                     const { fieldName, displayName, rules, onCustomRender, ...extraConfig } = fieldInfo;
-
-                    let initialValue = data[fieldName];
-                    const displayComp = onCustomRender(data);
+                    
+                    let initialValue = getObjectValueFromPath(data, fieldName);
+                    const displayComp = onCustomRender(initialValue);
 
                     return <FormItem key={i} label={`${displayName}`} {...formItemLayout} >
                         {getFieldDecorator(`${fieldName}`, {

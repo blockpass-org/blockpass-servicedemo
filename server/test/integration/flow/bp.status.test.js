@@ -6,7 +6,6 @@ var faker = require('faker');
 let should = chai.should();
 
 const BLOCKPASS_BASE_URL = _config.BLOCKPASS_BASE_URL;
-const { REQUIRED_FIELDS, OPTIONAL_FIELDS } = require('../../../controllers/blockPass/_config');
 
 describe("blockpass status flow", function () {
     after(() => {
@@ -47,6 +46,8 @@ describe("blockpass status flow", function () {
             .send({
                 code: bpFakeUserId
             })
+        
+        console.log(step1.body)
 
         step1.body.status.should.equal('waiting')
 

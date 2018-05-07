@@ -6,8 +6,6 @@ const sinon = require('sinon');
 const should = chai.should();
 
 const BLOCKPASS_BASE_URL = _config.BLOCKPASS_BASE_URL;
-const { REQUIRED_FIELDS, OPTIONAL_FIELDS } = require('../../../controllers/blockPass/_config');
-
 
 describe("blockpass revivew flow", function () {
     after(() => {

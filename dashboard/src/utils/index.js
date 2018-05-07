@@ -4,6 +4,12 @@ export function translatePictureUrl(itm) {
     return stores.ApplicationStore.getStorageUrl(itm);
 }
 
+export function getObjectValueFromPath(obj, path) {
+    return path.split('.').reduce((prev, curr) => {
+        return prev ? prev[curr] : undefined
+    }, obj || {})
+}
+
 export function setTimeoutPromise(timeOutMs) {
     return new Promise((resolve, reject) => {
         setTimeout(_ => {

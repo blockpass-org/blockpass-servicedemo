@@ -50,7 +50,7 @@ export default class AppLayout extends Component {
                 </Header>
                 <Main pageConfigs={pageConfigs}/>
                 <Footer style={{ textAlign: 'center' }}>
-                    Demo 3rd Services ©2018 Created by Ant UED
+                    Blockpass Demo Services ©2018 Powered by Ant UED
                 </Footer>
             </Layout>
         </Layout>

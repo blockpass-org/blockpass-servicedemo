@@ -32,6 +32,7 @@ class ServerSdk {
     secretId,
     requiredFields,
     optionalFields,
+    certs,
     findKycById,
     createKyc,
     updateKyc,
@@ -74,6 +75,7 @@ class ServerSdk {
     this.secretId = secretId;
     this.requiredFields = requiredFields;
     this.optionalFields = optionalFields;
+    this.certs = certs;
   }
 
   //-----------------------------------------------------------------------------------
@@ -117,6 +119,7 @@ class ServerSdk {
       payload.nextAction = "upload";
       payload.requiredFields = this.requiredFields;
       payload.optionalFields = this.optionalFields;
+      payload.certs = this.certs;
     } else {
       payload.message = "welcome back";
       payload.nextAction = "none";
@@ -266,6 +269,7 @@ class ServerSdk {
       payload.nextAction = "upload";
       payload.requiredFields = this.requiredFields;
       payload.optionalFields = this.optionalFields;
+      payload.certs = this.certs;
     } else {
       payload.message = "welcome back";
       payload.nextAction = "none";
@@ -427,7 +431,7 @@ class ServerSdk {
 
   //-----------------------------------------------------------------------------------
   _activityLog(...args) {
-    console.log("\x1b[32m%s\x1b[0m", "[info]", ...args);
+    console.log(...args);
   }
 
   _encodeDataIntoToken(payload) {

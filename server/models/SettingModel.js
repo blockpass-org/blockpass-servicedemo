@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SettingModelSchema = new Schema({
+    _id: String,
     label: String,
     fields: [{
                 _id: String,

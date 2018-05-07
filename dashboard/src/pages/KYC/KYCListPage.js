@@ -8,8 +8,7 @@ const MODEL_NAME = 'KYCModel';
 const selectFields = {
     '_id': 1,
     'status': 1,
-    'fristName': 1,
-    'lastName': 1,
+    'identities': 1
 }
 const STATUS_COLOR_MAPPING = {
     'approved': '#87d068',
@@ -29,11 +28,11 @@ const columns = [{
     width: '20%'
 }, {
     title: 'FirstName',
-    dataIndex: 'fristName',
+    dataIndex: 'identities.fristName',
     customFilter: true
 }, {
     title: 'LastName',
-    dataIndex: 'lastName',
+    dataIndex: 'identities.lastName',
 }, {
     title: 'Status',
     dataIndex: 'status',

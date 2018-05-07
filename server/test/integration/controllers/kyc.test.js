@@ -78,12 +78,12 @@ describe("kyc model res-api", function () {
             .get('/api/v1/KYCModel')
             .set('Authorization', token)
             .query({
-                query: JSON.stringify({ phone: phone })
+                query: JSON.stringify({"identities.phone": phone})
             })
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.length.should.equal(1);
-                res.body[0].phone.should.equal(phone);
+                res.body[0].identities.phone.should.equal(phone);
                 done();
             })
     })
@@ -94,7 +94,7 @@ describe("kyc model res-api", function () {
             .post('/api/v1/KYCModel')
             .set('Authorization', token)
             .send({
-                phone: phone,
+                "identities.phone": phone,
                 pass: 'abcd'
             })
             .end((err, res) => {
@@ -109,7 +109,7 @@ describe("kyc model res-api", function () {
             .patch(`/api/v1/KYCModel/${id}`)
             .set('Authorization', token)
             .send({
-                phone: '0-0-1-2',
+                "identities.phone": '0-0-1-2',
             })
             .end((err, res) => {
                 res.should.have.status(200);
