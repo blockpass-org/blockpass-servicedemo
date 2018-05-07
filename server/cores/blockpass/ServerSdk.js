@@ -187,12 +187,6 @@ class ServerSdk {
     let kycRecord = await Promise.resolve(this.findKycById(kycId));
     if (!kycRecord) throw new Error("Kyc record could not found");
 
-    const criticalFieldsCheck = this.requiredFields.every(
-      val => slugList.indexOf(val) !== -1 && userRawData[val] != null
-    );
-
-    if (!criticalFieldsCheck) throw new Error("Missing critical slug");
-
     // query kyc profile
     const kycProfile = await this.blockPassProvider.doMatchingData(kycToken);
     if (kycProfile == null) throw new Error("Sync info failed");
