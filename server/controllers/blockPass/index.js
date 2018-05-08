@@ -111,20 +111,6 @@ async function queryKycStatus({ kycRecord }) {
         })
     })
 
-    serverSdk.optionalFields.forEach(key => {
-        const slug = key
-        const dbField = CROSS_DB_FIELD_MAPS[key]
-        const val = kycRecord.identities[dbField]
-        const status = kycRecord.fieldStatus(dbField)
-
-        if (val) {
-            identitiesStatus.push({
-                slug,
-                ...status
-            })
-        }
-    })
-
     const certsStatus = []
     if (kycRecord.certs) {
         serverSdk.certs.forEach(key => {
