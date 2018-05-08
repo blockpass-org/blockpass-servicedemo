@@ -93,6 +93,7 @@ router.post('/setup', RequireParam(['deployKey', 'settings']), async (req, res) 
             value: _config.DEFAULT_OPTIONAL_FIELDS.join(','),
             _display: {
                 type: 'input',
+                hidden: true
             }
         },
         {

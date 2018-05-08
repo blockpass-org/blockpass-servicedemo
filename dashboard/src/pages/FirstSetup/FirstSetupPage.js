@@ -59,7 +59,7 @@ class FirstSetupPage extends Component {
                         {getFieldDecorator('deployKey', {
                             rules: [{ required: true, message: 'You can find this on docker-compose or DELOY_SECRET_KEY env' }],
                         })(
-                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} autoComplete="off" placeholder="Deployment Key" />
+                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} autoComplete="off" type="password" placeholder="Deployment Key" />
                         )}
                     </FormItem>
                     <FormItem>

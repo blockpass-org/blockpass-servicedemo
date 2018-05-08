@@ -8,7 +8,9 @@ const FIELD_TYPE_MAPS = {
     "given_name": "string",
     "phone": "string",
     "email": "string",
-    "onfido": "string"
+    "onfido": "string",
+    "dob": "string",
+    "address": "string"
 }
 const CROSS_DB_FIELD_MAPS = {
     "family_name": "lastName",
@@ -16,6 +18,8 @@ const CROSS_DB_FIELD_MAPS = {
     "phone": "phone",
     "email": "email",
     "selfie": "picture",
+    "dob": "dob",
+    "address": "address",
     "passport": "passport",
     "proof_of_address": "proofOfAddress",
     "onfido": "onfidoCertificate"

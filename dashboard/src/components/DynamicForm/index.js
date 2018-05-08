@@ -37,9 +37,7 @@ class DynamicForm extends React.Component {
             fieldName: `${label}`,
             displayName: label,
             initialValue: initialValue,
-            rules: [{
-                required: true, message: 'Please input this!',
-            }],
+            rules: [{}],
             onCustomRender: _ => formComponent[`${optional}`](label),
         })
     }
@@ -59,7 +57,12 @@ class DynamicForm extends React.Component {
     render() {
         const { form: {getFieldDecorator}, data} = this.props;
         const {label: title, fields} = data
-        const formfields = fields.map(item => this._renderFormItem(item._id, item.value, item._display.type))
+        const formfields = fields.reduce((acc, item) => {
+            if (item._display.hidden)
+                return acc;
+            acc.push(this._renderFormItem(item._id, item.value, item._display.type))
+            return acc
+        },[])
         return(
             <Form
                 layout="vertical"

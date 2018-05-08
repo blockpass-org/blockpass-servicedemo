@@ -19,13 +19,17 @@ const STATUS_COLOR_MAPPING = {
 const columns = [{
     title: 'ID',
     dataIndex: '_id',
-    customFilter: true,
+    customFilter: false,
     render: (data) => {
         return <div>
             {data.slice(0, 5) + '...'}
         </div>
     },
     width: '20%'
+}, {
+    title: 'Email',
+    dataIndex: 'identities.email',
+    customFilter: true
 }, {
     title: 'FirstName',
     dataIndex: 'identities.fristName',
@@ -73,7 +77,7 @@ export default class UserPage extends Component {
         return await ApplicationStore.restQueryData(MODEL_NAME, {
             ...queryModel,
             select: selectFields,
-            sort: {status: -1}
+            sort: { status: -1, updatedAt: -1 }
         });
     }
 

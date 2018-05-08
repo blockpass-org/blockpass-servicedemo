@@ -15,6 +15,8 @@ var KYCModelSchema = new Schema({
         proofOfAddress: String,
         passport: String,
         picture: String,
+        dob: String,
+        address: String
     },
 
     extraData: {

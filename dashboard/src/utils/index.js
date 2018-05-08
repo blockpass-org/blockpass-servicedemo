@@ -56,7 +56,7 @@ export function convertToMongoDbQuery({ results, page, sortField, sortOrder, ...
 
     Object.keys(filters).forEach(key => {
         let val = filters[key];
-        if (Array.isArray(val))
+        if (Array.isArray(val) && val.length > 0)
             queryInfo.query[key] = { '$in': val };
         else if (key === '_id')
             queryInfo.query[key] = val;

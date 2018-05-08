@@ -340,7 +340,7 @@ router.post('/api/status', RequireParams(["code"]), async (req, res) => {
         const code = req.body.code
         const sessionCode = req.body.sessionCode;
 
-        const payload = await serverSdk.queryStatusFlow({ code })
+        const payload = await serverSdk.queryStatusFlow({ code, sessionCode })
         return res.json(payload)
     } catch (ex) {
         console.log(ex);
