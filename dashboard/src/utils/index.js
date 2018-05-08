@@ -4,6 +4,12 @@ export function translatePictureUrl(itm) {
     return stores.ApplicationStore.getStorageUrl(itm);
 }
 
+export function getObjectValueFromPath(obj, path) {
+    return path.split('.').reduce((prev, curr) => {
+        return prev ? prev[curr] : undefined
+    }, obj || {})
+}
+
 export function setTimeoutPromise(timeOutMs) {
     return new Promise((resolve, reject) => {
         setTimeout(_ => {
@@ -50,7 +56,7 @@ export function convertToMongoDbQuery({ results, page, sortField, sortOrder, ...
 
     Object.keys(filters).forEach(key => {
         let val = filters[key];
-        if (Array.isArray(val))
+        if (Array.isArray(val) && val.length > 0)
             queryInfo.query[key] = { '$in': val };
         else if (key === '_id')
             queryInfo.query[key] = val;

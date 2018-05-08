@@ -1,4 +1,5 @@
 const config = require('../configs');
+const log = require('./log');
 const mongoose = require('mongoose');
 
 mongoose.connect(config.MONGODB_URI);

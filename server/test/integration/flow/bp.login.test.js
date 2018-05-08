@@ -2,26 +2,15 @@ const _config = require('../../../configs')
 const chai = require('chai');
 const faker = require('faker');
 const sinon = require('sinon');
-const blockpassSDK = require('../../../cores/blockpass/BlockPassServerApi');
 const blockpassSDKMock = require('../../../cores//blockpass/utils/_unitTestMock');
 const should = chai.should();
 
 const BLOCKPASS_BASE_URL = _config.BLOCKPASS_BASE_URL;
-const { REQUIRED_FIELDS, OPTIONAL_FIELDS } = require('../../../controllers/blockPass/_config');
 
 describe("blockpass login flow", function () {
-    let spy;
-    before(() =>{
-        spy = sinon.spy(blockpassSDK, 'notifyLoginComplete');
-    })
-
-    beforeEach(() => {
-        spy.resetHistory();
-    })
-
+  
     after(() => {
         blockpassSDKMock.clearAll();
-        blockpassSDK.notifyLoginComplete.restore();
     })
 
     it('[new user][happy][registerd] login', async function () {
@@ -73,15 +62,13 @@ describe("blockpass login flow", function () {
         let req = chai.sendLocalRequest()
             .post('/blockpass/api/uploadData')
             .field('accessToken', accessToken)
-            .field('slugList', REQUIRED_FIELDS)
+            .field('slugList', _config.DEFAULT_REQUIRED_FIELDS)
             .field('family_name', faker.name.firstName())
             .field('given_name', faker.name.lastName())
             .field('phone', faker.phone.phoneNumber())
-            // .field('email', faker.internet.email())
+            .field('email', faker.internet.email())
 
         const step2 = await req;
-
-        console.log(spy.args[0]);
 
         step2.body.nextAction.should.equal('none')
         step2.body.message.should.equal('welcome back')
@@ -113,7 +100,7 @@ describe("blockpass login flow", function () {
         let req = chai.sendLocalRequest()
             .post('/blockpass/api/uploadData')
             .field('accessToken', '')
-            .field('slugList', REQUIRED_FIELDS)
+            .field('slugList', _config.DEFAULT_REQUIRED_FIELDS)
             .field('family_name', faker.name.firstName())
             .field('lastName', faker.name.lastName())
             .field('phone', faker.phone.phoneNumber())

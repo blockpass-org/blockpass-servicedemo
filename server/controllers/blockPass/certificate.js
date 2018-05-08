@@ -4,11 +4,9 @@ const RequireToken = require('../../middlewares/requireToken');
 const KYCModel = require('../../models/KYCModel');
 const CertificateModel = require('../../models/CertificateModel');
 
-const { REQUIRED_FIELDS } = require('./_config');
-
-async function createCertificate(userObj, expiredDate, others = {}) {
+async function createCertificate(userObj, expiredDate, requiredFields, others = {}) {
     const customData = {}
-    REQUIRED_FIELDS.forEach(key => customData[key] = userObj[key])
+    requiredFields.forEach(key => customData[key] = userObj[key])
 
     return await CertificateModel.create({
         userId: userObj._id,
@@ -23,8 +21,8 @@ async function createCertificate(userObj, expiredDate, others = {}) {
 //  Certificate & Review process
 //-------------------------------------------------------------------------
 
-module.exports = function (router, serverSdk) {
-
+module.exports = function (router, getServerSdk) {
+    
     router.post('/api/approveCertificate',
         RequireToken(['admin', 'reviewer']),
         RequireParams(['id', 'message', 'expiredDate', 'rate']),
@@ -38,7 +36,7 @@ module.exports = function (router, serverSdk) {
 
             userObject.status = 'approved';
 
-            const cer = await createCertificate(userObject, expiredDate, {
+            const cer = await createCertificate(userObject, expiredDate, getServerSdk().requiredFields, {
                 rate
             })
 
@@ -47,7 +45,7 @@ module.exports = function (router, serverSdk) {
             if (!saveResult)
                 return utils.responseError(res, 500, 'failed to update data model')
 
-            const bpTicket = await serverSdk.signCertificate({
+            const bpTicket = await getServerSdk().signCertificate({
                 profileId: saveResult.blockPassID,
                 kycRecord: saveResult,
                 serviceInfo: {},
@@ -88,7 +86,7 @@ module.exports = function (router, serverSdk) {
             if (!saveResult)
                 return utils.responseError(res, 500, 'failed to update data model')
 
-            const bpTicket = await serverSdk.rejectCertificate(saveResult.blockPassID, message)
+            const bpTicket = await getServerSdk().rejectCertificate(saveResult.blockPassID, message)
 
             utils.userActivityLog({
                 userId: saveResult._id,

@@ -11,4 +11,9 @@ module.exports = {
     MONGODB_URI: 'mongodb://localhost/3rd-service',
 
     DELOY_SECRET_KEY: '123456789',
+
+
+    DEFAULT_REQUIRED_FIELDS: ["email", "selfie", "passport", "proof_of_address", "family_name", "given_name", "phone", "dob", "address"],
+    DEFAULT_OPTIONAL_FIELDS: [],
+    DEFAULT_CERTS: ["onfido"]
 }

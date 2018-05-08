@@ -21,12 +21,6 @@ const formItemLayout = {
     },
 }
 
-const ETHER_NETWORKS = [
-    "Rinkeby",
-    "MainNet"
-]
-
-
 @inject("ApplicationStore", "Auth")
 class AccountSettingPage extends React.Component {
     state = {

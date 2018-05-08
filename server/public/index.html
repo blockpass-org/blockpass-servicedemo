@@ -37,6 +37,13 @@
             <div class="col-sm-4">
                 <h3 style="text-align: center" >Result</h3>
                 <p id="step3-content"></p>
+                <form id="submit-extra-form" style="display: none;" >
+                    <div class="form-group">
+                      <label for="ether-address">Ether Address: </label>
+                      <input type="input" class="form-control" id="ether-address">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
             </div>
         </div>
     </div>
@@ -93,7 +100,7 @@
                 clientId,
                 secretId,
                 baseUrl,
-                refreshRateMs: 1000
+                refreshRateMs: 5000
             })
 
             sdk.on('code-refresh', onBlockpassCodeRefresh)

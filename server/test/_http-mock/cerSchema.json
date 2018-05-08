@@ -1,0 +1,91 @@
+{
+    "@context": {
+        "_customFields": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "expires": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "accessMode": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "reviewBody": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "image": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "Claim": "@nest",
+        "logo": {
+            "@nest": "Organization",
+            "@id": "schema:text"
+        },
+        "legalName": {
+            "@nest": "Organization",
+            "@id": "schema:text"
+        },
+        "identifier": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
+        "Organization": "@nest",
+        "passport": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "selfie": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "dob": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "proofOfAddress": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "address": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "email": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "phone": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "familyName": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "givenName": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "rootHash": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "transactionId": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "scId": {
+            "@nest": "Person",
+            "@id": "schema:text"
+        },
+        "Person": "@nest"
+    },
+    "schema": "http://schema.org/",
+    "blockpass": "http://blockpas.org/",
+    "id": "@id",
+    "type": "@type"
+}

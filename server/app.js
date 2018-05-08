@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'))
 // middleware
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(require('./middlewares/log'))
+app.use(require('./middlewares/requestLog'))
 
 app.use(require('./controllers'))
 
@@ -29,5 +29,10 @@ let server = app.listen(port, '0.0.0.0', function() {
 
 // gracefull shutdown
 app.close = _ => server.close();
+
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
+});
 
 module.exports = app;

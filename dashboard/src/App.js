@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AppLayout from './containers/Layout/AppLayout'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import { PageConfigs } from './pages/_pageConfig';
 import { Provider, observer } from 'mobx-react';
 import stores from './stores';
@@ -19,7 +19,7 @@ class App extends Component {
     const loggedIn = Auth.loggedIn();
     const isDev = ApplicationStore.isDev;
     return (
-      <BrowserRouter basename="dashboard" >
+      <HashRouter>
         <Provider {...stores}>
           <div>
             <Route path="*" render={() => (
@@ -37,7 +37,7 @@ class App extends Component {
           </div>
 
         </Provider>
-      </BrowserRouter >
+      </HashRouter >
     );
   }
 }

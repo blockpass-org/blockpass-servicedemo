@@ -3,7 +3,7 @@ const RequireParams = require('../../middlewares/requireParams');
 const RequireToken = require('../../middlewares/requireToken');
 const KYCModel = require('../../models/KYCModel');
 
-module.exports = function (router, serverSdk) {
+module.exports = function (router, getServerSdk) {
     router.post('/api/startReview',
         RequireToken(['admin', 'reviewer']),
         RequireParams(['id', 'message']),

@@ -123,6 +123,7 @@ const RAW_DATA = {
 describe("blockpass sdk proof field check", function () {
 
     const serverSdk = new ServerSdk({
+        baseUrl: process.env.BLOCKPASS_BASE_URL,
         clientId: 'test',
         secretId: 'test',
         requiredFields: [],

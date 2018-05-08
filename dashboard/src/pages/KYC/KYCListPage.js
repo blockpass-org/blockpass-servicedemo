@@ -8,8 +8,7 @@ const MODEL_NAME = 'KYCModel';
 const selectFields = {
     '_id': 1,
     'status': 1,
-    'fristName': 1,
-    'lastName': 1,
+    'identities': 1
 }
 const STATUS_COLOR_MAPPING = {
     'approved': '#87d068',
@@ -20,7 +19,7 @@ const STATUS_COLOR_MAPPING = {
 const columns = [{
     title: 'ID',
     dataIndex: '_id',
-    customFilter: true,
+    customFilter: false,
     render: (data) => {
         return <div>
             {data.slice(0, 5) + '...'}
@@ -28,12 +27,16 @@ const columns = [{
     },
     width: '20%'
 }, {
+    title: 'Email',
+    dataIndex: 'identities.email',
+    customFilter: true
+}, {
     title: 'FirstName',
-    dataIndex: 'fristName',
+    dataIndex: 'identities.fristName',
     customFilter: true
 }, {
     title: 'LastName',
-    dataIndex: 'lastName',
+    dataIndex: 'identities.lastName',
 }, {
     title: 'Status',
     dataIndex: 'status',
@@ -74,7 +77,7 @@ export default class UserPage extends Component {
         return await ApplicationStore.restQueryData(MODEL_NAME, {
             ...queryModel,
             select: selectFields,
-            sort: {status: -1}
+            sort: { status: -1, updatedAt: -1 }
         });
     }
 

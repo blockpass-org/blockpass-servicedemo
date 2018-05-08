@@ -2,6 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const should = chai.should();
 
+const Events = require('../../../models/events')
 const { DELOY_SECRET_KEY } = require('../../../configs');
 
 
@@ -35,19 +36,25 @@ describe("setup flow", function () {
             .get('/setting')
         settingRes.body.length.should.equal(0)
 
+        let eventCalled = false
+        let raisedEvent = key => {
+            eventCalled = true
+        }
+
+        Events.sub('onSettingChange', raisedEvent)
+
         // setup
         const setupRes = await chai.sendLocalRequest()
             .post('/setting/setup')
             .send({
                 deployKey: DELOY_SECRET_KEY,
                 settings: {
-                    adminPass: 'admin',
-                    SmartContractAddress: '0x123',
-                    SmartContractEnv: 'MainNet'
+                    adminPass: 'admin'
                 }
             })
 
         setupRes.body.length.should.equal(2)
+        setupRes.body[1]._id.should.equal('blockpass-settings')
 
         // admin login
         const adminLoginRes = await adminLogin({
@@ -56,53 +63,9 @@ describe("setup flow", function () {
         })
 
         adminLoginRes.body.token.should.not.equal(null)
+        eventCalled.should.equal(true)
 
-        return Promise.resolve();
-    })
-
-    it('[happy] 1st time setup missing params', async function () {
-
-        // drop all DataModel
-        await freshInstallDataModel();
-
-        // ensure empty settings
-        let settingRes = await chai.sendLocalRequest()
-            .get('/setting')
-        settingRes.body.length.should.equal(0)
-
-        // setup
-        let setupRes = await chai.sendLocalRequest()
-            .post('/setting/setup')
-            .send({
-                deployKey: DELOY_SECRET_KEY,
-                settings: {
-                    SmartContractAddress: '0x123',
-                    SmartContractEnv: 'MainNet'
-                }
-            })
-
-        setupRes.status.should.equal(400)
-
-        setupRes = await chai.sendLocalRequest()
-            .post('/setting/setup')
-            .send({
-                deployKey: DELOY_SECRET_KEY,
-                settings: {
-                    adminPass: 'admin',
-                    SmartContractAddress: '0x123',
-                    SmartContractEnv: 'MainNet'
-                }
-            })
-
-        setupRes.body.length.should.equal(2)
-
-        // admin login
-        const adminLoginRes = await adminLogin({
-            userName: 'admin',
-            pass: 'admin'
-        })
-
-        adminLoginRes.body.token.should.not.equal(null)
+        Events.unSub('onSettingChange', raisedEvent)
 
         return Promise.resolve();
     })
@@ -123,9 +86,7 @@ describe("setup flow", function () {
             .send({
                 deployKey: DELOY_SECRET_KEY,
                 settings: {
-                    adminPass: 'admin',
-                    SmartContractAddress: '0x123',
-                    SmartContractEnv: 'MainNet'
+                    adminPass: 'admin'
                 }
             })
 
@@ -136,9 +97,7 @@ describe("setup flow", function () {
             .send({
                 deployKey: DELOY_SECRET_KEY,
                 settings: {
-                    adminPass: 'admin',
-                    SmartContractAddress: '0x123',
-                    SmartContractEnv: 'MainNet'
+                    adminPass: 'admin'
                 }
             })
 

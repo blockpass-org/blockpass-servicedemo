@@ -35,7 +35,7 @@ module.exports.sha256Hash = function (data) {
 }
 
 module.exports.activityLog = function () {
-    console.log('\x1b[32m%s\x1b[0m', '[info]', ...arguments)
+    console.info(...arguments)
 }
 
 module.exports.userActivityLog = function ({ userId, message, extra }) {

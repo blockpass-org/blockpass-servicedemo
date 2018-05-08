@@ -10,5 +10,5 @@ export default {
     appSetting: host => host + '/setting',
     appFirstTimeSetup: host => host + '/setting/setup',
     kycStorageItem: (host, id) => host + '/api/v1/kyc/storage/' + id,
-    updateSetting: (host,id) => `${host}/setting/:id`,
+    updateSetting: (host,id) => `${host}/setting/${id}`,
 }
