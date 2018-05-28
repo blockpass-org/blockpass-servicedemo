@@ -2,26 +2,242 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
+    <title>Blockpass Demo</title>
+    <!-- <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/assets/js/theme/css/style.css">
+    <link rel="stylesheet" href="/assets/js/theme/css/style_back.css"> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/manifest.json">
+    <meta name="msapplication-TileColor" content="#E6E6E6">
+    <meta name="msapplication-TileImage" content="/blockpass_demo_assets/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#E6E6E6">
+    <meta name="description" content="Home page">
+    <link rel="stylesheet" href="/assets/js/bootstrap-material-design-font/css/material.css">
+    <link rel="stylesheet" href="/assets/js/tether/tether.min.css">
+    <link rel="stylesheet" href="/assets/js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/js/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/assets/js/theme/css/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-99834864-5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-99834864-5');
+    </script>
     <script src="./sdk/blockpass.dev.js"></script>
+    <script src="/assets/js/web/assets/jquery/jquery.min.js"></script>
+    <script src="/assets/js/tether/tether.min.js"></script>
+    <script src="/assets/js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/smooth-scroll/smooth-scroll.js"></script>
+    <script src="/assets/js/viewport-checker/jquery.viewportchecker.js"></script>
+    <script src="/assets/js/jarallax/jarallax.js"></script>
+    <script src="/assets/js/theme/js/script.js"></script>
+    <script src="/assets/js/jquery-qrcode-0.14.0.min.js"></script>
 </head>
 
 <body>
-
+    <!--
     <div class="jumbotron text-center">
         <h1>Demo WebPage</h1>
         <p>Thanks Boostrap!</p>
     </div>
+-->
 
+    <section style="background-color: #fff;">
+        <div style="background-color: #E6E6E6;text-align: center">
+            <div class="container" style="position:relative;">
+                <div class="row">
+                    <div class="content-size text-xs-center">
+                        <img src="/assets/images/logo-blockpass-foundation.png" class="main-logo" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="content-size text-xs-center">
+                        <p class="main-title">Blockpass Demo</p>
+                    </div>
+                </div>
+                <div class="hidden-sm-down" style="top:50px;left:25%;position:absolute;width:15px;height:15px;background-color:black;"></div>
+                <div class="hidden-sm-down" style="top:80px;right:34%;position:absolute;width:8px;height:8px;background-color:black;"></div>
+                <div class="hidden-sm-down" style="bottom:125px;left:38%;position:absolute;width:8px;height:8px;background-color:black;"></div>
+                <div class="hidden-sm-down" style="bottom:115px;right:25%;position:absolute;width:15px;height:15px;background-color:black;"></div>
+                <div class="hidden-sm-down" style="bottom:35px;left:15%;position:absolute;width:8px;height:8px;background-color:black;"></div>
+                <div class="hidden-sm-down" style="bottom:25px;left:75%;position:absolute;width:8px;height:8px;background-color:black;"></div>
+            </div>
+
+            <div class="container">
+                <div style="text-align:center">
+                    <div id="blockpass-connect" onclick="$('#blockpass-connect').hide();$('#container-qrcode').fadeIn(500);$('#instructions').fadeIn(1000);">
+                        <img id="image_logo" src="/assets/images/favicon-32x32.png" style="float:left;filter: invert(100%);">
+                        <span style="font-weight:bold">Connect</span> with
+                        <span style="font-weight:bold">Blockpass</span>
+                    </div>
+                </div>
+                <div style="text-align:center; display:none" id="container-qrcode">
+                    <div class="container-form">
+                        <div class="container-qrcode">
+                            <!-- used to display logo in QR code -->
+                            <img id="image_logo" src="/assets/images/favicon-32x32.png" style="display:none">
+                            <div class="qrcode" id="qrcodeform">
+                                <canvas id="qrcode" width="290" height="290"></canvas>
+                            </div>
+                        </div>
+                        <div class="black-square stop-left"></div>
+                        <div class="black-square stop-right"></div>
+                        <div class="black-square sbottom-left"></div>
+                        <div class="black-square sbottom-right"></div>
+                    </div>
+                </div>
+
+                <div style="text-align:center; display:none;background-color:transparent" id="welcome-container">
+                    <div class="container-form">
+                        <div class="container-form-inner">
+                            <p class="name-container" id="welcome">Hello
+                                <span id="yourname">Thomas</span>!</p>
+                            <p>Thanks for using Blockpass, we have successfully received your info.
+                                <br/> Don't hesitate to send us your feedback at support@blockpass.org</p>
+                            </p>
+
+                            <p style="font-weight:bold; font-size:20px;clear:both;">Connect on Telegram</p>
+                            <a class="_2kgOa" href="https://t.me/blockpass" target="_blank" data-reactid="350">
+                                <img src="/assets/images/e9489302.svg" alt="Join Blockpass Telegram group" style="width:50px;margin-bottom:20px;">
+                            </a>
+
+                            <p style="font-weight:bold; font-size:20px;">Subscribe to our mailing list</p>
+                            <form action="//blockpass.us16.list-manage.com/subscribe/post?u=f19842a5bf0a643cb55f0894f&amp;id=6210c2e1c4" method="post"
+                                id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" noValidate
+                                class="validate">
+                                <div class="form" style="display:inline-block">
+                                    <input type="email" class="form-control" name="EMAIL" id="email_address" placeholder="email address" required />
+                                    <input type="submit" id="ethereum_submit" value="Submit" name="subscribe" id="subscribe" class="btn btn-info" />
+                                    <div style="display:none" aria-hidden="true">
+                                        <input type="text" name="b_f19842a5bf0a643cb55f0894f_6210c2e1c4" tabIndex="-1" value="" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="black-square stop-left "></div>
+                        <div class="black-square stop-right "></div>
+                        <div class="black-square sbottom-left "></div>
+                        <div class="black-square sbottom-right "></div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;display:none" id="loadingComponents">
+                <div class="container-form">
+                    <div class="container-form-eth" style="width: 320px;height:320px">
+                        <div class="spinner ">
+                            <div class="cube1 "></div>
+                            <div class="cube2 "></div>
+                        </div>
+                        <p class="display-5 ">Please wait</p>
+                    </div>
+                    <div class="black-square stop-left "></div>
+                    <div class="black-square stop-right "></div>
+                    <div class="black-square sbottom-left "></div>
+                    <div class="black-square sbottom-right "></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="instructions" style="display:none;">
+            <div class="row">
+                <div class="content-size text-xs-center">
+                    <p class="main-subtitle1">USER INSTRUCTIONS</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-xs-center">
+                    <img src="/assets/images/arrow.png" class="top-icon" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-xs-center" style="padding-top:20px;">
+                    <p class="step-number hidden-sm-down" style="font-size:30px">1.</p>
+                    <p class="icon-sub" style="margin-bottom:0; font-size:14px">Download our beta app for your mobile phone</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 content-size text-xs-center">
+                </div>
+                <div class="col-md-4 content-size text-xs-center">
+                    <p>
+                        <a href="https://itunes.apple.com/us/app/blockpass/id1322917010?ls=1&mt=8" target="_blank">
+                            <img src="/assets/images/apple.png" class="store-icon" />
+                            <br/> iPhone app
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-4 content-size text-xs-center">
+                    <p>
+                        <a href="https://play.google.com/store/apps/details?id=com.blockpass_mobile" target="_blank">
+                            <img src="/assets/images/android.png" class="store-icon" style="margin-left: -7px;" />
+                            <br/> Android app
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                </div>
+            </div>
+            <div class="row hidden-sm-down text-xs-center">
+                <div class="col-md-1 content-size text-xs-center">
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                    <img src="/assets/images/2.png" class="main-icon" />
+                    <p class="step-number">2.</p>
+                    <p class="icon-sub">Create your identity</p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                    <img src="/assets/images/3.png" class="main-icon" />
+                    <p class="step-number">3.</p>
+                    <p class="icon-sub">Submit your info</p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                    <img src="/assets/images/4.png" class="main-icon" />
+                    <p class="step-number">4.</p>
+                    <p class="icon-sub">Open this website</p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                    <img src="/assets/images/5.png" class="main-icon" />
+                    <p class="step-number">5.</p>
+                    <p class="icon-sub">Scan the QR Code above with app</p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                    <img src="/assets/images/6.png" class="main-icon" />
+                    <p class="step-number">6.</p>
+                    <p class="icon-sub">Confirm registration in app</p>
+                </div>
+                <div class="col-md-2 content-size text-xs-center">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <h3 style="text-align: center" >Session Code</h3>
+                <h3 style="text-align: center">Session Code</h3>
                 <h4>Cli params: </h4>
                 <p id="step1-content"></p>
 
@@ -31,39 +247,66 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <h3 style="text-align: center" >Ticket Status</h3>
-                <p id="step2-content" style="text-align: center" >created</p>
+                <h3 style="text-align: center">Ticket Status</h3>
+                <p id="step2-content" style="text-align: center">created</p>
             </div>
             <div class="col-sm-4">
-                <h3 style="text-align: center" >Result</h3>
+                <h3 style="text-align: center">Result</h3>
                 <p id="step3-content"></p>
-                <form id="submit-extra-form" style="display: none;" >
+                <form id="submit-extra-form" style="display: none;">
                     <div class="form-group">
-                      <label for="ether-address">Ether Address: </label>
-                      <input type="input" class="form-control" id="ether-address">
+                        <label for="ether-address">Ether Address: </label>
+                        <input type="input" class="form-control" id="ether-address">
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
         </div>
     </div>
-
+    -->
+    <footer class="" style="background-color:#fff;padding-top:30px">
+        <div class="container footer-text">
+            <p>info@blockpass.org
+                <br/> Copyright 2018 Blockpass - All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         const clientId = '3rd_service_demo'
         const secretId = '3rd_service_demo'
         const baseUrl = 'https://sandbox-api.blockpass.org'
+        const jq = window.jQuery
 
         /** Blockpass SSO session generated
          *  @param {Object} params - session object
          *  @param {String} params.session - session code
          */
         function onBlockpassCodeRefresh(params) {
-            document.getElementById('step1-content').innerHTML = `3rd-sso ${clientId} ${params.session}`
-            document.getElementById('step1-qr').src = `http://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify({
-                clientId,
-                session: params.session
-            })}`
+            let data = JSON.stringify({ clientId, session: params.session })
+
+            var options = {
+                render: 'canvas',
+                minVersion: 1,
+                maxVersion: 40,
+                ecLevel: 'L',
+                left: 0,
+                top: 0,
+                size: 290,
+                fill: '#000000',
+                background: '#ffffff',
+                text: data ? data : "Hello something went wrong when we try to generate session please reload the webpage",
+                radius: 0.5,
+                quiet: 1,
+                mode: 4,
+                mSize: 0.1,
+                mPosX: 0.5,
+                mPosY: 0.5,
+                label: 'no label',
+                fontname: 'sans',
+                fontcolor: '#000',
+                image: document.getElementById("image_logo")
+            };
+            jq('#qrcode').qrcode(options);
         }
 
         /** Blockpass SSO session status
@@ -71,13 +314,11 @@
          *  @param {String} params.status - status (processing | complete | created)
          */
         function onBlockpassProcessing(params) {
-            // session code invalid
-            document.getElementById('step1-content').innerHTML = ``
-            document.getElementById('step1-qr').src = ``
-
-            document.getElementById('step2-content').innerHTML = 'processing'
+            $('#container-qrcode').fadeOut(1500, function () {
+                $('#loadingComponents').fadeIn(1000, function () { });
+            });
         }
-        
+
         /** Blockpass SSO result
          *  @param {Object} params - session object
          *  @param {String} params.status - status (sucess|failed)
@@ -86,12 +327,22 @@
          *  @param {Object} params.extraData.extraData - 3rd services custom data
          */
         function onBlockpassSSoResult(params) {
-            // session code invalid
-            document.getElementById('step1-content').innerHTML = ``
-            document.getElementById('step1-qr').src = ``
+            let userName = ''
+            let email = ''
+            try {
+                const identities = params.extraData.extraData.record.identities;
+                userName = `${identities.fristName} ${identities.lastName}`;
+                email = identities.email
+            } catch (error) {
 
-            document.getElementById('step2-content').innerHTML = 'complete'
-            document.getElementById('step3-content').innerHTML = `<pre>${JSON.stringify(params, null, 2)}</pre>`
+            }
+
+            $('#container-qrcode').fadeOut();
+            $('#loadingComponents').fadeOut(1500, function () {
+                $('#welcome-container').fadeIn(1000);
+                $("#yourname").text(userName);
+                $("#email_address").val(email);
+            });
         }
 
         let sdk = null;
@@ -106,9 +357,21 @@
             sdk.on('code-refresh', onBlockpassCodeRefresh)
             sdk.on('sso-processing', onBlockpassProcessing)
             sdk.on('sso-complete', onBlockpassSSoResult)
-            
+
             // refresh new sso code
             sdk.generateSSOData();
+
+            // Uncomment this block to test animation flow
+            // setTimeout(() => {
+            //     onBlockpassCodeRefresh({ session: "22222222" })
+            //     setTimeout(() => {
+            //         onBlockpassProcessing()
+            //         setTimeout(() => {
+            //             onBlockpassSSoResult()
+
+            //         }, 5000)
+            //     }, 5000)
+            // }, 1000)
         })
 
     </script>
