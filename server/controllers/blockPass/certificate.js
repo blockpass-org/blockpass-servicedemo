@@ -159,6 +159,9 @@ module.exports = function (router, getServerSdk) {
                     bpToken
                 })
 
+                if (!bpSignRes)
+                    return utils.responseError(res, 500, 'Sign certificate error')
+
                 const saveResult = await kycRecord.save();
 
                 if (!saveResult)

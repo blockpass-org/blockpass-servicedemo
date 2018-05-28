@@ -92,7 +92,6 @@ export default class KYCDetail extends Component {
 						type: MAP_KEYS[curr].type,
 						isWaitingUserResubmit: data.waitingUserResubmit
 					});
-
 					profile[curr] = this._updateFieldStatus(
 						{
 							...MAP_KEYS[curr],
@@ -106,7 +105,7 @@ export default class KYCDetail extends Component {
 									: path([ 'identities', curr ])(data)
 						},
 						path([ 'reviews', curr, 'status' ])(data),
-						path([ 'reviews', curr, 'comment' ])(data)
+						path('status')(data)
 					);
 
 					return profile;
@@ -247,6 +246,8 @@ export default class KYCDetail extends Component {
 			this._closeApproval();
 			message.success('your profile has been certificated !');
 			this.props.history.push('/');
+		} else {
+			this._showError('Internal server error')
 		}
 	}
 
@@ -332,13 +333,13 @@ export default class KYCDetail extends Component {
  *
  * @param  {obj} fieldData the latest log data of this field
  * @param  {string} latestStatus the latest status of this field
- * @param  {string} latestReason the latest reason of this field
+ * @param  {string} profileStatus the status of profile
  * 
  * @return {Obj}  Object of this field has status value
  * 
  */
 
-	_updateFieldStatus = (fieldData, latestStatus) => {
+	_updateFieldStatus = (fieldData, latestStatus, profileStatus) => {
 		const fieldHistory = path([ 'history', 'logStory' ])(fieldData).filter(
 			(item) => item.message === 'field-decision'
 		);
@@ -347,6 +348,13 @@ export default class KYCDetail extends Component {
 			fieldHistory.length > 0 ? fieldHistory[0].status : 'submitted';
 		const fieldComment =
 			fieldHistory.length > 0 ? fieldHistory[0].comment : '';
+		if (profileStatus === 'approved') {
+			return {
+				...fieldData,
+				status: 'approved',
+				reason: ''
+			};
+		}
 		return {
 			...fieldData,
 			status:
