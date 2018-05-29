@@ -138,7 +138,7 @@ export default class KYCDetail extends Component {
 		);
 
 		if (history === null || history.body.length === 0) {
-			return this._showError('Data not found!');
+			return console.log('history Data not found!');
 		} else {
 			return history;
 		}
