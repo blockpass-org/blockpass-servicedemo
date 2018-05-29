@@ -1,0 +1,10 @@
+.header {
+  &__setting {
+    font-size: 20px;
+    color: white;
+    margin: 10px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

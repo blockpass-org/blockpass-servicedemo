@@ -1,0 +1,18 @@
+.certificate-list {
+  &__label {
+    width: 70%;
+    padding: 8px 16px;
+    display: flex;
+    color: rgba(64, 64, 66, 0.36);
+  }
+
+  &__label-date {
+    margin-left: auto;
+
+    span {
+      &:first-child {
+        margin-right: 40px;
+      }
+    }
+  }
+}

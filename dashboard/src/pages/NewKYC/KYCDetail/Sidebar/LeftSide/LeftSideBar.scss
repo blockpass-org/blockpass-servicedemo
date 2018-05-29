@@ -1,0 +1,36 @@
+.sidebar-component {
+  margin-top: 32px;
+  background-color: white;
+  height: 100vh;
+  &__header {
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    h4 {
+      font-weight: bold;
+    }
+  }
+  &__body {
+    h4 {
+      padding: 15px;
+      color: rgba(64, 64, 66, 0.36);
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #f2f4f7;
+      text-align: center;
+    }
+    &-content {
+      padding: 15px 30px;
+    }
+    i {
+      font-weight: bold;
+      color: #4388ff;
+      margin-right: 14px;
+    }
+    p {
+      font-size: 14px;
+      color: #404042;
+      margin-bottom: 8px;
+    }
+  }
+}

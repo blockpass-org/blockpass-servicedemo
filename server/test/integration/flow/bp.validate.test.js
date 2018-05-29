@@ -100,17 +100,6 @@ const PROOF_LIST = {
 
 describe("blockpass validation flow", function () {
 
-    function queryLastLog(userId) {
-        return chai.sendLocalRequest()
-            .get('/api/v1/LogModel')
-            .set('Authorization', token)
-            .query({
-                query: JSON.stringify({ userId }),
-                sort: { updatedAt: -1 },
-                limit: 1
-            })
-    }
-
     let token = '';
     before(done => {
         chai.sendLocalRequest()
@@ -144,7 +133,7 @@ describe("blockpass validation flow", function () {
             .set('Authorization', token)
             .send({
                 id: kycId,
-                slugList: ['phone', 'fristName', 'lastName']
+                slugList: ['phone', 'firstName', 'lastName']
             })
         console.log(step1.body)
         step1.body.rootCheck.should.not.equal(null);

@@ -19,7 +19,6 @@ class PermissionScopeTag extends React.Component {
 
     handleChange(tag, checked) {
         const { onChange } = this.props;
-        const { value } = this.state;
         // const nextSelectedTags = checked ?
         //     [...value, tag] :
         //     value.filter(t => t !== tag);

@@ -15,5 +15,9 @@ module.exports = {
 
     DEFAULT_REQUIRED_FIELDS: ["email", "selfie", "passport", "proof_of_address", "family_name", "given_name", "phone", "dob", "address"],
     DEFAULT_OPTIONAL_FIELDS: [],
-    DEFAULT_CERTS: ["onfido"]
+    DEFAULT_CERTS: ["onfido"],
+
+    
+    CERTIFICATE_SIGN_PRIVATE: "KztaRPUmGbGje5P3vLFYz9Qg2KuNSiQGrYppL4w6VoWC7sYZ2wT3",
+    CERTIFICATE_SIGN_PUBLIC: "1MZmUAZjr8pzMsxMFvNKihTdohxeCBVcPZ"
 }

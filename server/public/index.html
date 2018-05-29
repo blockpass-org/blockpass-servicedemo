@@ -331,7 +331,7 @@
             let email = ''
             try {
                 const identities = params.extraData.extraData.record.identities;
-                userName = `${identities.fristName} ${identities.lastName}`;
+                userName = `${identities.firstName} ${identities.lastName}`;
                 email = identities.email
             } catch (error) {
 

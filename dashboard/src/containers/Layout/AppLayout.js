@@ -1,58 +1,47 @@
 import React, { Component } from 'react';
-import { Layout, Icon } from 'antd';
-import Drawer from "../Drawer/Drawer";
-import Main from "..//Main/Main";
-import LoginUserIcon from "../../components/Header/LoginUserIcon";
-
-import './style.css';
+import { Layout } from 'antd';
+import { withRouter } from 'react-router';
+import Main from '../Main/Main';
+import './style.scss';
 import { inject } from 'mobx-react';
+import HeaderLayout from '../Header';
 
-const { Header, Sider, Footer } = Layout;
+const { Footer } = Layout;
 
-@inject("ApplicationStore", "Auth")
-export default class AppLayout extends Component {
-    
-    state = {
-        collapsed: false,
-    };
+@inject('ApplicationStore', 'Auth')
+class AppLayout extends Component {
+	state = {
+		collapsed: false
+	};
 
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
+	toggle = () => {
+		this.setState({
+			collapsed: !this.state.collapsed
+		});
+	};
 
-    render() {
-        const {ApplicationStore, Auth, pageConfigs} = this.props;
+	render() {
+		const {pageConfigs } = this.props;
 
-        return <Layout style={{height:"100vh"}}>
-            <Sider
-                trigger={null}
-                collapsible
-                collapsed={this.state.collapsed}
-            >
-                <div className="logo" />
-                <Drawer collapsed={this.state.collapsed} />
-            </Sider>
-            <Layout>
-                <Header style={{ background: '#fff', padding: 0 }}>
-                    <Icon
-                        className="trigger"
-                        type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                        onClick={this.toggle}
-                    />
-                    <LoginUserIcon/>
-                    <Icon
-                        type="mail"
-                        className="mail"
-                    />
-
-                </Header>
-                <Main pageConfigs={pageConfigs}/>
-                <Footer style={{ textAlign: 'center' }}>
-                    Blockpass Demo Services ©2018 Powered by Ant UED
-                </Footer>
-            </Layout>
-        </Layout>
-    }
+		return (
+			<Layout>
+				<HeaderLayout toggleOpenSidebar={this.toggle} />
+				<Layout>
+					<Main
+						pageConfigs={pageConfigs}
+						collapsed={this.state.collapsed}
+					/>
+				</Layout>
+				<Footer
+					style={{
+						textAlign: 'center'
+					}}
+				>
+					Blockpass Demo Services ©2018 Powered by Ant UED
+				</Footer>
+			</Layout>
+		);
+	}
 }
+
+export default withRouter(AppLayout);

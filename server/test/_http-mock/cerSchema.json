@@ -20,6 +20,10 @@
             "@nest": "Claim",
             "@id": "schema:text"
         },
+        "issueDate": {
+            "@nest": "Claim",
+            "@id": "schema:text"
+        },
         "Claim": "@nest",
         "logo": {
             "@nest": "Organization",
@@ -35,54 +39,54 @@
         },
         "Organization": "@nest",
         "passport": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "selfie": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "dob": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "proofOfAddress": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "address": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "email": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "phone": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "familyName": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "givenName": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "rootHash": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "transactionId": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
         "scId": {
-            "@nest": "Person",
+            "@nest": "Entity",
             "@id": "schema:text"
         },
-        "Person": "@nest"
+        "Entity": "@nest"
     },
     "schema": "http://schema.org/",
     "blockpass": "http://blockpas.org/",

@@ -135,39 +135,6 @@ describe("blockpass register flow", function () {
         return Promise.resolve();
     })
 
-    it('[new user] register missing critical fields', async function () {
-
-        const bpFakeUserId = Date.now().toString();
-
-        // Mock API 
-        blockpassSDKMock.mockHandShake(BLOCKPASS_BASE_URL, bpFakeUserId)
-        blockpassSDKMock.mockMatchingData(BLOCKPASS_BASE_URL, bpFakeUserId)
-
-        const step1 = await chai.sendLocalRequest()
-            .post('/blockpass/api/register')
-            .send({
-                code: bpFakeUserId
-            })
-
-        step1.body.nextAction.should.equal('upload')
-        const { accessToken, expiry } = step1.body;
-
-        let req = chai.sendLocalRequest()
-            .post('/blockpass/api/uploadData')
-            .field('accessToken', accessToken)
-            .field('slugList', _config.DEFAULT_REQUIRED_FIELDS)
-            .field('family_name', faker.name.firstName())
-            .field('given_name', faker.name.lastName())
-            .field('email', faker.internet.email())
-
-        const step2 = await req;
-
-        step2.status.should.equal(403)
-
-        blockpassSDKMock.checkPending();
-
-        return Promise.resolve();
-    })
 
     it('[new user] register missmatching slug list', async function () {
 

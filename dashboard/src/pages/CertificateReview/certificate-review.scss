@@ -1,0 +1,150 @@
+.certificate-review {
+  padding: 65px 90px;
+  background-color: white;
+  margin-top: 35px;
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    &-wrapper {
+      margin-right: 16px;
+    }
+  }
+  &__header-wrapper {
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 30px;
+    margin-bottom: 25px;
+  }
+  &__header-avatar-wrapper {
+    display: flex;
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #404042;
+  }
+  &__header-info-date {
+    padding-top: 4px;
+    p {
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+  }
+  &__info-date {
+    &__label {
+      color: rgba(64, 64, 66, 0.68);
+      font-size: 12px;
+      width: 80px;
+      margin-right: 16px;
+      display: inline-block;
+    }
+    &__value {
+      font-size: 14px;
+      color: #404042;
+    }
+  }
+  &__summarize-hash {
+    display: flex;
+  }
+  &__summarize-item {
+    padding: 23px 16px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    &:first-child {
+      margin-right: 8px;
+      margin-left: auto;
+    }
+    &.hash {
+      flex-direction: row;
+    }
+    &__title {
+      color: #404042;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    &__value {
+      font-size: 14px;
+      font-weight: bold;
+      color: #4388ff;
+      &.unmatched {
+        color: #ff000c;
+      }
+    }
+    &__number {
+      font-size: 18px;
+      font-weight: bold;
+      color: #404042;
+      margin-right: 4px;
+    }
+    &__hash {
+      color: rgba(64, 64, 66, 0.24);
+      font-size: 12px;
+    }
+    &__devider {
+      &:first-child {
+        margin-right: 18px;
+      }
+    }
+  }
+  &__body-item {
+    padding: 25px 33px;
+    border-radius: 4px;
+    border: solid 1px rgba(64, 64, 66, 0.24);
+    margin-bottom: 16px;
+    &__title {
+      color: #404042;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    &__content-wrapper {
+      display: flex;
+    }
+    &__label,
+    &__status {
+      font-size: 14px;
+      color: #404042;
+      width: 20%;
+      display: inline-block;
+      @media screen and(max-width: 1400px) {
+        width: 25%;
+      }
+    }
+    &__hash {
+      color: rgba(64, 64, 66, 0.36);
+      font-size: 14px;
+      width: 65%;
+      display: inline-block;
+      white-space: pre-line;
+      word-break: break-all;
+      @media screen and(max-width: 1400px) {
+        width: 50%;
+      }
+      &-signature {
+        color: rgba(64, 64, 66, 0.36);
+        font-size: 14px;
+        display: inline-block;
+        width: 85%;
+        @media screen and(max-width: 1400px) {
+          width: 15%;
+        }
+      }
+    }
+    &__status {
+      color: #4388ff;
+      width: 15%;
+      font-weight: bold;
+      padding-left: 15px;
+      @media screen and(max-width: 1400px) {
+        width: 25%;
+      }
+      &.unmatched {
+        color: #ff001f;
+      }
+    }
+    &__icon {
+      font-size: 16px;
+      margin-right: 8px;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 const path = require('path');
-const fixtures = require('pow-mongoose-fixtures');
+const fixtures = require('./utils/preload-mongoose');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');

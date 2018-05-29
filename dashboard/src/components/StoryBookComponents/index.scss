@@ -1,0 +1,87 @@
+.ant-btn {
+    height: auto;
+    width: auto;
+    font-size: 1rem;
+    border: 0;
+    background: #4388ff;
+    color: white;
+    &.small {
+        @media screen and(min-width: 1400px) {
+            min-width: 100px;
+        }
+        padding: 8px 16px;
+        min-width: 75px;
+    }
+    &.medium {
+        padding: 16px;
+    }
+    &.big {
+        min-width: 240px;
+        min-height: 56px;
+        padding: 15px 45px;
+    }
+    &.disabled,
+    &[disabled],
+    &[disabled],
+    &.disabled:focus,
+    &[disabled]:focus,
+    &.disabled:active,
+    &[disabled]:active,
+    &.disabled.active,
+    &[disabled].active {
+        background: #4388ff;
+        background-color: #4388ff;
+        color: white;
+        opacity: .75;
+        &:hover {
+            background: #4388ff;
+            color: white;
+            opacity: .75;
+            box-shadow: none;
+        }
+    }
+    &.gray {
+        background: #2d426b;
+    }
+    &.pink {
+        background: #ff324b;
+        &.disabled {
+            background: #ff324b;
+            opacity: .75;
+            color: white;
+        }
+    }
+    &.blue {
+        background: #2d426b;
+        &.disabled {
+            background: #2d426b;
+            opacity: .75;
+            color: white;
+        }
+    }
+    &.reject {
+        background: #404042;
+    }
+    &:hover {
+        background: #4388ff;
+        color: white;
+        box-shadow: 5px 5px 11px #404042;
+        border: 0;
+        &.gray {
+            background: #2d426b;
+        }
+        &.pink {
+            background: #ff324b;
+        }
+        &.blue {
+            background: #2d426b;
+        }
+        &.reject {
+            background: #404042;
+        }
+        &.disabled {
+            box-shadow: none;
+        }
+    }
+    &.popup {}
+}

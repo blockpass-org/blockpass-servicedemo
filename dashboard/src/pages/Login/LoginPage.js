@@ -18,7 +18,7 @@ class LoginPage extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { history, ApplicationStore } = nextProps;
-        if (ApplicationStore.appSetting.length == 0)
+        if (ApplicationStore.appSetting.length === 0)
             history.replace('/setup');
     }
 

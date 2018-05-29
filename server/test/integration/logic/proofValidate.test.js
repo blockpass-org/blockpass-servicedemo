@@ -113,7 +113,7 @@ const RAW_DATA = {
         "expires_in": new Date("2018-04-23T12:29:44.453Z"),
         "refresh_token": "162f3832095bcf5d27c0dc36d8c631f0"
     },
-    "fristName": "Katlyn",
+    "firstName": "Katlyn",
     "lastName": "Greenfelder",
     "phone": "721.680.0252 x23087",
     "picture": "5addc3a80476a51e3c3f4291",
@@ -130,7 +130,8 @@ describe("blockpass sdk proof field check", function () {
         optionalFields: [],
         findKycById: _ => { },
         createKyc: _ => { },
-        updateKyc: _ => { }
+        updateKyc: _ => { },
+        queryKycStatus: _ => { },
     })
 
     it('[happy] proof invidual field', async function () {

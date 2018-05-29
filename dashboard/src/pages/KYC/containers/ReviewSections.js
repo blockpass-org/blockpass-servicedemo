@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, message } from 'antd';
+import { Tabs } from 'antd';
 import ReviewDisplay from '../components/ReviewDisplay';
 
 const TabPane = Tabs.TabPane;

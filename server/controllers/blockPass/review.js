@@ -29,13 +29,120 @@ module.exports = function (router, getServerSdk) {
                 return utils.responseError(res, 500, 'failed to update data model')
 
             utils.userActivityLog({
-                userId: saveResult._id,
-                message: message,
+                recordId: saveResult._id,
+                message: 'record-start-review',
                 extra: {
-                    by: 'admin'
+                    by: _id
                 }
             })
 
             return res.json([{ ...userObject.toObject() }])
+        })
+
+    router.post('/api/sendFeedback',
+        RequireToken(['admin', 'reviewer']),
+        RequireParams(['id', 'message', 'decisions']),
+        async (req, res) => {
+            const { id, message, decisions } = req.body;
+            const { _id } = req.auth.data;
+
+            const kycRecord = await KYCModel.findById(id).exec();
+
+            if (!kycRecord)
+                return utils.responseError(res, 404, 'User not found')
+
+            if (kycRecord.reviewer != _id)
+                return utils.responseError(res, 409, 'Reviewer missmatching')
+
+            if (kycRecord.status !== 'inreview')
+                return utils.responseError(res, 409, 'State transition invalid')
+
+            // kycRecord.status = 'waiting';
+            for (let index in decisions) {
+
+                const { slug, comment, status, type } = decisions[index];
+
+                if (['approved', 'rejected'].indexOf(status) === -1) {
+                    return utils.responseError(res, 400, 'Status must be approved or rejected')
+                }
+
+                switch (type) {
+                    case 'identities':
+                        {
+                            const info = kycRecord.fieldStatus(slug);
+                            if (info.status === 'missing')
+                                return utils.responseError(res, 409, 'Field not found ' + slug)
+
+                            kycRecord.reviews = {
+                                ...kycRecord.reviews,
+                                [slug]: {
+                                    status: status,
+                                    comment,
+                                    updatedAt: new Date()
+                                }
+                            }
+                        }
+                        break;
+                    case 'certificates':
+                        {
+                            const info = kycRecord.certStatus(slug);
+                            if (info.status === 'missing')
+                                return utils.responseError(res, 409, 'certificates not found ' + slug)
+
+                            kycRecord.reviews = {
+                                ...kycRecord.reviews,
+                                [slug]: {
+                                    status: status,
+                                    comment,
+                                    updatedAt: new Date()
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                utils.userActivityLog({
+                    recordId: kycRecord._id,
+                    message: 'field-decision',
+                    extra: {
+                        by: kycRecord.reviewer,
+                        slug,
+                        comment,
+                        status,
+                        type
+                    }
+                })
+            }
+
+            const { bpToken } = kycRecord;
+
+            // todo: send notice to user
+            const bpTicket = await getServerSdk().userNotify({
+                message,
+                bpToken
+            })
+
+            kycRecord.waitingUserResubmit = true;
+            kycRecord.summary = message;
+            
+            const saveResult = await kycRecord.save();
+
+            if (!saveResult)
+                return utils.responseError(res, 500, 'failed to update data model')
+
+            
+            utils.userActivityLog({
+                recordId: saveResult._id,
+                message: 'record-feedback',
+                extra: {
+                    by: _id,
+                    action: 'feedback',
+                    message
+                }
+            })
+
+            return res.json([{ ...saveResult.toObject() }])
         })
 }

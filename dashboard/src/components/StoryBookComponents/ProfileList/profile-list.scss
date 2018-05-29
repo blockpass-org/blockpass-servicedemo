@@ -1,0 +1,110 @@
+.ant-timeline-item {
+  padding: 0;
+  margin-bottom: 50px;
+  position: relative;
+  &-head {
+    border: 0;
+    background: none;
+    &::before {
+      content: "";
+      background-position: center;
+      display: block;
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #4388ff;
+      border-radius: 50%;
+      padding: 8px;
+      position: absolute;
+      top: 3px;
+      left: -5px;
+    }
+  }
+  &.phone {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./phone.svg');
+      }
+    }
+  }
+  &.picture {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./picture.svg');
+      }
+    }
+  }
+  &.email {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./email.svg');
+      }
+    }
+  }
+  &.proofOfAddress {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./proofOfAddress.svg');
+      }
+    }
+  }
+  &.name {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./name.svg');
+      }
+    }
+  }
+  &.address {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./address.svg');
+      }
+    }
+  }
+  &.dob {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./dob.svg');
+      }
+    }
+  }
+  &.passport {
+    .ant-timeline-item-head {
+      &::before {
+        background-image: url('./passport.svg');
+      }
+    }
+  }
+  &-last {
+    .ant-timeline-item-tail {
+      display: block;
+      border-left-style: solid;
+    }
+  }
+  &-content,
+  &-tail {
+    bottom: 0;
+    height: calc(100% - 22px);
+  }
+  &-content {
+    top: 0;
+    @media screen and(max-width: 1400px) {
+      padding: 0 0 0 45px;
+    }
+  }
+  &-tail {
+    top: auto;
+    border-color: rgba(67, 136, 255, 0.2);
+    &::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      position: absolute;
+      bottom: 0;
+      border-radius: 50%;
+      border: 1px solid #4388ff;
+      left: -3px;
+    }
+  }
+}

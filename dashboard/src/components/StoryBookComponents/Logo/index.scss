@@ -1,0 +1,20 @@
+.logo {
+    &__wrapper {
+        position: relative;
+        width: 100%;
+        height: 90px;
+        background-color: white;
+        &.left {
+            background-color: blue;
+        }
+    }
+    &__img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: 132px;
+        height: 40px;
+        transform: translate(-50%, -50%);
+    }
+}

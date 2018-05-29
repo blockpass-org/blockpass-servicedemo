@@ -25,7 +25,7 @@ RUN yarn run build --production
 #                   Package
 #------------------------------------------------------
 
-FROM node:carbon
+FROM node:9
 
 WORKDIR /usr/app
 
@@ -33,7 +33,7 @@ COPY ./server/package.json .
 COPY ./server/yarn.lock .
 COPY ./server/package-lock.json .
 
-RUN yarn install --production --quiet && yarn cache clean
+RUN npm install --production
 
 COPY ./server .
 
