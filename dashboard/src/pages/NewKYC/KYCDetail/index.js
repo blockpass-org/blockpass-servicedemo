@@ -119,7 +119,8 @@ export default class KYCDetail extends Component {
 				});
 				this._historyHandel(historyData);
 				this.setState({ history: historyData });
-			} else this._showError('data not found');
+			} else 
+				console.log('history data not found');
 		}
 	}
 
