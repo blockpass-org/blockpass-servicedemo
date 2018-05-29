@@ -168,7 +168,7 @@ class DataEntitiesTableAdvance extends Component {
 		const { data, pagination, loading } = this.state;
 		const enhanceColumns = this._explandCustomSearch(columns);
 
-		const filterData = data.filter((item) => has('identities')(item));
+		const filterData = data;
 
 		return (
 			<div style={{ display: 'flex' }}>
