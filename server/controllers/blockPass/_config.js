@@ -22,7 +22,9 @@ const CROSS_DB_FIELD_MAPS = {
     "address": "address",
     "passport": "passport",
     "proof_of_address": "proofOfAddress",
-    "onfido": "onfidoCertificate"
+    "onfido": "onfidoCertificate",
+    "onfido-service-cert": "onfidoCertificateV2",
+    "complyadvantage-service-cert": "complyAdvantageCertificate"
 }
 
 function swap(json) {
