@@ -1,0 +1,87 @@
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.mail {
+  font-size: 20px;
+  line-height: 64px;
+  padding-right: 24px;
+  cursor: pointer;
+  transition: color .3s;
+  float: right
+}
+
+.mail:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 48px;
+  margin: 16px;
+  background-image: url('./logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.header {
+  &__wrapper {
+    height: 90px;
+    padding: 0;
+    background-color: #4388ff;
+  }
+  &__title-wrapper {
+    padding-left: 32px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+  }
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 0;
+  }
+  &__body-wrapper,
+  &__right {
+    display: flex;
+    height: 90px;
+    align-items: center;
+  }
+  &__body-wrapper {
+    padding: 0 35px;
+  }
+  &__right {
+    margin-left: auto;
+  }
+}
+
+.back-button {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
+  padding-right: 15px;
+  &:hover {
+    cursor: pointer;
+    animation: slide1 1s ease-in-out infinite;
+  }
+}
+
+@keyframes slide1 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, 0);
+  }
+}

@@ -5,6 +5,8 @@ const api = {
   MATCHING_INFO_PATH: "/api/v0.3/oauth2/profile",
   REFRESH_TOKEN_PATH: "/api/v0.3/service/renewStoc",
   SSO_COMPETE_PATH: "/api/v0.3/service/complete/",
-  GET_PROOF_OF_PATH: "/api/v0.3/service/getProof"
+  GET_PROOF_OF_PATH: "/api/v0.3/service/getProof",
+  CERTIFICATE_ACCEPT_PATH: "/api/v0.3/certificate_new/",
+  NOTIFICATION_PATH: "/api/v0.3/certificate_new/feedBack"
 };
 module.exports.api = api;

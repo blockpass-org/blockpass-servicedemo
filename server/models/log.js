@@ -1,22 +1,37 @@
 const winston = require('winston');
 require('winston-daily-rotate-file');
+const stringify = require('../utils/stringify');
 const util = require('util');
+var Elasticsearch = require('winston-elasticsearch');
 
 const logger = winston.createLogger({
     level: 'verbose',
-    timestamp: true,
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json()
     )
 });
 
-//
+// ElasticSearch
+if( process.env.ELASTICSEARCH_URI ) {
+    const elasticSearchIndexName = process.env.LOG_ES_INDEX || 'service-demo'
+    var esTransportOpts = {
+        level: 'verbose',
+        indexPrefix: elasticSearchIndexName,
+        clientOpts: {
+            host: process.env.ELASTICSEARCH_URI,
+            log: [{ type: 'console', level: 'error' }]
+        }
+    };
+    logger.add(new Elasticsearch(esTransportOpts));
+}
+
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 // 
 
 const myFormat = winston.format.printf(info => {
+    const {level, message, ...rest} = info
     return `${info.level} ${info.message}`;
 });
 
@@ -28,6 +43,24 @@ if (process.env.NODE_ENV !== 'production') {
             myFormat
         ),
         handleExceptions: true
+    }));
+
+    logger.add(new winston.transports.DailyRotateFile({
+        level: 'error',
+        handleExceptions: true,
+        exitOnError: false,
+        filename: '.logs/error-%DATE%.log',
+        datePattern: 'YYYY-MM-DD-HH',
+        zippedArchive: true,
+        maxSize: '20m',
+        maxFiles: '14d'
+    }));
+    logger.add(new winston.transports.DailyRotateFile({
+        filename: '.logs/combined-%DATE%.log',
+        datePattern: 'YYYY-MM-DD-HH',
+        zippedArchive: true,
+        maxSize: '20m',
+        maxFiles: '14d'
     }));
    
 } else {

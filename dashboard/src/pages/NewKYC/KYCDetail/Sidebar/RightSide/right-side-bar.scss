@@ -1,0 +1,65 @@
+.right-side {
+  margin-left: 24px;
+  margin-top: 32px;
+  background-color: white;
+  transition: all 1s;
+  &__title {
+    font-size: 18px;
+    color: #404042;
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 20px 23px;
+  }
+}
+
+.history-component {
+  padding: 16px 24px;
+  &__item {
+    display: flex;
+    &-detail {
+      &.author {
+        color:  rgba(64, 64, 66, 0.36);
+      }
+    }
+    &-info {
+      padding-left: 11px;
+      position: relative;
+      &::before {
+        content: '';
+        border-left: 1px solid #f0f5ff;
+        position: absolute;
+        left: 0;
+        height: 100%;
+        top: 7px;
+      }
+      &::after {
+        content: '';
+        border: 2px solid #4388ff;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: -3px;
+        width: 6px;
+        height: 6px;
+        top: 7px;
+      }
+      &-author {
+        font-size: 14px;
+        color: rgba(64, 64, 66, 0.36);
+      }
+    }
+    &-date {
+      margin-right: 10px;
+      color: rgba(64, 64, 66, 0.36);
+    }
+    &-status {
+      margin-right: 5px;
+      &.rejected {
+        color: #ff334b;
+      }
+      &.approved {
+        color: #4388ff;
+      }
+    }
+  }
+}

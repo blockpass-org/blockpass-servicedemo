@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 import { message, Row } from 'antd';
-import { Form, Icon, Input, Button, Select } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import { inject } from 'mobx-react';
 
 import './style.css';
@@ -19,7 +19,7 @@ class FirstSetupPage extends Component {
     }
 
     _handleSubmit = (e) => {
-        const { ApplicationStore, Auth, history } = this.props;
+        const { ApplicationStore} = this.props;
 
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
@@ -46,8 +46,6 @@ class FirstSetupPage extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { ApplicationStore } = this.props;
-        const { hostUrl, isDev } = ApplicationStore;
 
         return <div className="setupPanel">
             <Row justify="center" type="flex" className="setupPanelHeader" >

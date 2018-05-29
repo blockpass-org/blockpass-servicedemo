@@ -1,0 +1,144 @@
+.user-card {
+  &__wrapper {
+    background-color: white;
+    color: white;
+    display: flex;
+    align-items: end;
+    padding: 20px 130px;
+    @media screen and (max-width: 1400px) {
+      padding: 40px 50px;
+    }
+  }
+  .info {
+    padding: 20px 80px;
+    border-radius: 4px;
+    &.inreview {
+      margin: 0 auto;
+    }
+    &.approved {
+      background-color: #f2f4f7;
+    }
+    &.rejected {
+      background-color: #fff5f5;
+    }
+    &__label {
+      color: rgba(64, 64, 66, 0.68);
+      font-size: 18px;
+      min-width: 90px;
+      display: inline-block;
+    }
+    &__value {
+      color: black;
+      font-size: 18px;
+      font-weight: bold;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    &__item {
+      &:first-child {
+        margin-bottom: 10px;
+      }
+    }
+    &__status {
+      position: absolute;
+      color: black;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      &-date {
+        font: {
+          size: 12px;
+        }
+        color: rgba(64, 64, 66, 0.36);
+      }
+      &-value {
+        font: {
+          size: 12px;
+          weight: bold;
+        }
+        color: #4388ff;
+        &.rejected {
+          color: #ff334b;
+        }
+      }
+    }
+  }
+  &__status {
+    @media screen and (max-width: 1400px) {
+      padding: 0 10px 10px;
+    }
+    padding: 0 32px 32px;
+    button {
+      width: 100%;
+    }
+    &.result {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+  .result-info {
+    &__wrapper {
+      display: flex;
+    }
+    &__item {
+      padding: 12px;
+      width: 50%;
+      text-align: center;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+    }
+    &__label {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      padding: 5px 10px;
+      border-bottom: 1px solid blue;
+      &.unmatch {
+        border-bottom: 1px solid red;
+      }
+    }
+    &__quantity {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    &__unit {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-left: 5px;
+    }
+  }
+  &__info {
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: solid 1px #4388ff;
+    margin: 0 auto;
+    &.rejected {
+      border: solid 1px #ff334b;
+    }
+    &.approved {
+      .info__label {
+        text-align: right;
+        margin-right: 15px;
+      }
+    }
+  }
+  &.full-width {
+    .user-card__wrapper {
+      background-color: white;
+    }
+    .info {
+      &__item {
+        max-width: 450px;
+        margin: 0 auto;
+        display: flex;
+      }
+    }
+  }
+  .ant-btn {
+    &.medium {
+      margin-left: auto;
+      width: 100%;
+      display: block;
+    }
+  }
+}

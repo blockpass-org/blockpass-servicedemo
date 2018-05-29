@@ -10,11 +10,28 @@ const router = express.Router()
 
 const adminTokenCheck = RequireToken(['admin'])
 
+
+/**
+ * This is query all setting
+ * @route GET /setting
+ * @group Setting
+ * @returns {Object} 200 - All settings
+ */
 router.get('/', async (req, res) => {
     const allSetting = await SettingModel.find({})
     return res.json(allSetting)
 })
 
+/**
+ * This is query all setting. Required `accesstoken` with scope ['admin']
+ * @route PUT /setting/{$id}
+ * @consumes application/json
+ * @group Setting
+ * @param {string} Authorization.header.required - accesstoken
+ * @param {string} id.query.required - id to update
+ * @param {Object} body - json body contain new setting value
+ * @returns {Object} 200 - new setting object
+ */
 router.put('/:id', adminTokenCheck, async (req, res) => {
     const { id, values: body } = req.body
     const itm = await SettingModel.findById(id).exec()
@@ -41,6 +58,15 @@ router.put('/:id', adminTokenCheck, async (req, res) => {
     res.json(saveRes)
 })
 
+/**
+ * First time setup ( setup admin pass )
+ * @route POST /setting/setup
+ * @consumes multipart/form-data
+ * @group Setting
+ * @param {string} deployKey.formData.required - deploy secret value defined in DELOY_SECRET_KEY
+ * @param {Object} settings.adminPass.formData.required - Admin password
+ * @returns {Object} 200 - new setting object
+ */
 router.post('/setup', RequireParam(['deployKey', 'settings']), async (req, res) => {
     const itmCount = await SettingModel.find().count().exec()
     if (itmCount !== 0) return utils.responseError(res, 409, 'You are trying to call setup multiple times')

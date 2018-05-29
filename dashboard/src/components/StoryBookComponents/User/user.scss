@@ -1,0 +1,18 @@
+.user-header {
+    &__wrapper {
+        display: flex;
+    }
+    &__avatar {
+        padding: 0 4px;
+    }
+    &__username {
+        padding: 0 4px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        h4 {
+            color: white;
+            margin: 0;
+        }
+    }
+}

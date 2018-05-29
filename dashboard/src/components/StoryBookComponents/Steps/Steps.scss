@@ -1,0 +1,12 @@
+.ant-step-icon {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.ant-steps-item {
+    &.ant-steps-item-process {
+        .ant-steps-item-content {
+            font-weight: 800;
+        }
+    }
+}

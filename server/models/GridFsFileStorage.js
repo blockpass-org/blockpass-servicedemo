@@ -52,7 +52,8 @@ module.exports.readFileAsBuffer = function (_id) {
         });
         readstream.on('data', d => bufs.push(d))
         readstream.on('end', () => {
-            resolve(Buffer.from(bufs));
+            resolve(Buffer.concat(bufs));
         })
+        readstream.on('error', reject)
     })
 }

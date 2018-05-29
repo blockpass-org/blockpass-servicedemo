@@ -1,4 +1,12 @@
 const mongoose = require('mongoose');
+const utils = require('../utils');
+const FileStorage = require('./GridFsFileStorage');
+
+const FileFields = [
+    'proofOfAddress',
+    'picture',
+    'passport'
+]
 
 // Define schema
 var Schema = mongoose.Schema;
@@ -6,9 +14,15 @@ var Schema = mongoose.Schema;
 var KYCModelSchema = new Schema({
     reviewer: Schema.Types.ObjectId,
     blockPassID: String,
-    
+    waitingUserResubmit: Boolean,
+    summary: String,
+    submitCount: {
+        type: Number,
+        default: 0
+    },
+
     identities: {
-        fristName: String,
+        firstName: String,
         lastName: String,
         phone: String,
         email: String,
@@ -38,7 +52,7 @@ var KYCModelSchema = new Schema({
 
     bpToken: {
         access_token: String,
-        expires_in: Date,
+        expires_at: Date,
         refresh_token: String,
     },
 
@@ -54,71 +68,76 @@ var KYCModelSchema = new Schema({
         smartContractAddress: String,
         network: String
     }
-    
+
 }, { timestamps: true });
 
 KYCModelSchema.index({ blockPassID: 1 })
-KYCModelSchema.pre('save', function (next) {
-    var kyc = this;
-    if (!kyc.isModified('bpToken')) return next();
 
-    if (!(kyc.bpToken.expires_in instanceof Date)) {
-        if (!isNaN(kyc.bpToken.expires_in)) {
-            const expiredDate = new Date(Date.now() + kyc.bpToken.expires_in * 1000)
-            kyc.bpToken.expires_in = expiredDate
-        }
-    }
-
-    next();
-});
-
-KYCModelSchema.methods.fieldStatus = function(name) {
+KYCModelSchema.methods.fieldStatus = function (name) {
     const reviews = this.reviews || {}
     const val = this.identities[name];
     const reviewResult = reviews[name];
 
-    if(!val)
+    if (!val)
         return {
             status: 'missing'
         }
 
-    if(!reviewResult) 
+    if (!reviewResult)
         return {
-            status: 'waiting'
+            status: 'received'
         }
 
-    const {decision, comment} = reviewResult
+    const { status, comment } = reviewResult
     return {
-        status: decision,
+        status: status,
         comment
     }
 }
 
-KYCModelSchema.methods.certStatus = function(name) {
+KYCModelSchema.methods.certStatus = function (name) {
     const reviews = this.reviews || {}
     const certs = this.certs || {}
     const val = certs[name];
     const reviewResult = reviews[name];
 
-    if(!val)
+    if (!val)
         return {
             status: 'missing'
         }
 
-    if(!reviewResult) 
+    if (!reviewResult)
         return {
-            status: 'waiting'
+            status: 'received'
         }
 
-    const {decision, comment} = reviewResult
+    const { decision, comment } = reviewResult
     return {
         status: decision,
         comment
     }
 }
 
+KYCModelSchema.methods.getIdentityHash = async function (field) {
+    const { identities = {} } = this;
+    const rawVal = identities[field]
+
+    if (!rawVal) return null;
+
+    if (FileFields.indexOf(field) !== -1) {
+        try {
+            const rawBin = await FileStorage.readFileAsBuffer(rawVal);
+            return utils.sha256HashBuffer(rawBin);
+        } catch (err) {
+            console.error(err)
+            return null;
+        }
+    }
+
+    return utils.sha256Hash(rawVal);
+}
+
 // Compile model from schema
 const KYCModel = mongoose.model('KYCModel', KYCModelSchema);
-
 
 module.exports = KYCModel;

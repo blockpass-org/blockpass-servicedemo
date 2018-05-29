@@ -34,13 +34,22 @@ module.exports.sha256Hash = function (data) {
     return hash.digest('hex');
 }
 
+module.exports.sha256HashBuffer = function (buffer) {
+    if (!(buffer instanceof Buffer))
+        throw new TypeError("arg is not instance of Buffer")
+
+    const hash = crypto.createHash('sha256');
+    hash.update(buffer);
+    return hash.digest('hex');
+}
+
 module.exports.activityLog = function () {
     console.info(...arguments)
 }
 
-module.exports.userActivityLog = function ({ userId, message, extra }) {
+module.exports.userActivityLog = function ({ recordId, message, extra }) {
     LogModel.create({
-        userId,
+        recordId,
         message,
         extra
     })

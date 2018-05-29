@@ -82,14 +82,35 @@ module.exports.mockQueryRefreshToken = function (baseUrl, response = null) {
         .reply(200, response)
 }
 
+module.exports.mockNoticeUser = function (baseUrl, response = null) {
+    response = response || {
+        
+    }
+
+    nock(baseUrl)
+        .post(api.NOTIFICATION_PATH, (body) => {
+            return true
+        })
+        .reply(200, response)
+}
+
 module.exports.mockQueryServiceMetadata = function (baseUrl, serviceId, response) {
     nock(baseUrl)
         .get(api.META_DATA_PATH + serviceId)
         .reply(200, response)
 }
 
-module.exports.mockQueryCertificateSchema = function (baseUrl, cerId, response) {
+module.exports.mockQueryCertificateSchema = function (baseUrl, cerId, response, numCall = 1) {
     nock(baseUrl)
-        .get(api.CERTIFICATE_SCHEMA + cerId)
+        .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+        .get('/api/schema/demo-service-cert')
+        .query(true)
+        .times(numCall)
+        .reply(200, response)
+}
+
+module.exports.mockSignCertificate = function (baseUrl, response) {
+    nock(baseUrl)
+        .put(api.CERTIFICATE_ACCEPT_PATH)
         .reply(200, response)
 }

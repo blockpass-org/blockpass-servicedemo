@@ -1,0 +1,31 @@
+.header {
+    &__wrapper {
+        height: 90px;
+        padding: 0;
+        background-color: #4388ff;
+    }
+    &__title-wrapper {
+        padding-left: 32px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+    }
+    &__title {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0;
+    }
+    &__body-wrapper,
+    &__right {
+        display: flex;
+        height: 90px;
+        align-items: center;
+    }
+    &__body-wrapper {
+        padding: 0 35px;
+    }
+    &__right {
+        margin-left: auto;
+    }
+}

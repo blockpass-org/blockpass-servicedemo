@@ -45,7 +45,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-99834864-5');
     </script>
-    <script src="./sdk/blockpass.min.js"></script>
+    <script src="./sdk/blockpass.dev.js"></script>
     <script src="/assets/js/web/assets/jquery/jquery.min.js"></script>
     <script src="/assets/js/tether/tether.min.js"></script>
     <script src="/assets/js/bootstrap/js/bootstrap.min.js"></script>
@@ -331,7 +331,7 @@
             let email = ''
             try {
                 const identities = params.extraData.extraData.record.identities;
-                userName = `${identities.fristName} ${identities.lastName}`;
+                userName = `${identities.firstName} ${identities.lastName}`;
                 email = identities.email
             } catch (error) {
 

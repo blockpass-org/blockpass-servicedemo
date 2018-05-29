@@ -14,7 +14,7 @@ const FIELD_TYPE_MAPS = {
 }
 const CROSS_DB_FIELD_MAPS = {
     "family_name": "lastName",
-    "given_name": "fristName",
+    "given_name": "firstName",
     "phone": "phone",
     "email": "email",
     "selfie": "picture",

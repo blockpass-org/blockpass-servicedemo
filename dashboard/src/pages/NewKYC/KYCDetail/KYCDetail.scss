@@ -1,0 +1,265 @@
+.kyc-detail {
+  padding-top: 32px;
+  padding-left: 25px;
+  .kyc-process {
+    @media screen and (max-width: 1400px) {
+      padding: 40px 50px;
+    }
+    padding: 40px 130px;
+    background: white;
+    margin-bottom: 63px;
+    position: relative;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
+    &:first-child {
+      margin-bottom: 0;
+    }
+    &:last-child {
+      background: #f0f4f7;
+      box-shadow: none;
+      margin-top: -20px;
+      display: flex;
+      min-height: 0;
+      justify-content: space-between;
+    }
+    .checkbox-label {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #4388ff;
+      &.reject {
+        color: #ff001f;
+      }
+    }
+    &__waiting-review {
+      &__information {
+        width: 100%;
+        background-color: #e0ecff;
+        margin-bottom: 32px;
+      }
+    }
+    &__profile {
+      &__title {
+        padding-bottom: 16px;
+        font-size: 24px;
+        font-weight: bold;
+        border-bottom: 1px solid black;
+        margin-bottom: 50px;
+        display: flex;
+        align-items: flex-end;
+      }
+    }
+    &.waiting-review {
+      padding-bottom: 20px;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.06);
+    }
+  }
+  .ant-steps-item {
+    &.ant-steps-item-process {
+      .ant-steps-item-title {
+        font-weight: bold;
+      }
+    }
+    &.ant-steps-item-finish {
+      .ant-steps-item-title {
+        color: rgba(0, 0, 0, 0.45);
+        ;
+      }
+    }
+  }
+}
+
+.modal-accept {
+  width: 356px !important;
+  height: 180px;
+  .ant-modal {
+    &-header {
+      border: 0;
+    }
+    &-title {
+      font-weight: bold;
+    }
+    &-body {
+      padding-top: 0;
+      p {
+        margin-bottom: 0;
+      }
+      textarea {
+        margin-top: 20px;
+        min-height: 160px;
+      }
+    }
+    &-footer {
+      .modal-footer-label {
+        cursor: pointer;
+        padding: 5px 15px;
+        border: 1px solid #fff;
+        &:hover {
+          border: 1px solid #4388ff;
+        }
+        &:first-child {
+          margin-right: 25px;
+        }
+        &.unreject,
+        &.unaccept {
+          color: #4388ff;
+        }
+      }
+    }
+  }
+}
+
+.modal-history {
+  .ant-modal {
+    &-footer {
+      display: none;
+    }
+  }
+  &__content {
+    display: flex;
+    padding: 0 30px 15px;
+    position: relative;
+    &::before {
+      content: '';
+      border-left: 1px solid rgba(67, 136, 255, 0.2);
+      position: absolute;
+      top: 17px;
+      left: 10px;
+      height: calc(100% - 17px);
+    }
+    &:last-child {
+      &::before {
+        display: none;
+      }
+    }
+  }
+  &__status {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    font-size: 1rem;
+    color: #404042;
+    text-transform: capitalize;
+  }
+  &__info,
+  &__author {
+    p {
+      font-size: 1rem;
+      color: #404042;
+    }
+  }
+  &__date {
+    color: rgba(64, 64, 66, 0.36);
+  }
+  &__icon {
+    font-size: 18px;
+    left: 2px;
+    top: 0;
+    position: absolute;
+    color: #4388ff;
+    &.rejected {
+      color: #ff001f;
+    }
+    &.edited {
+      border: 1px solid #2d426b;
+      border-radius: 50%;
+      padding: 3px;
+      font-size: 13px;
+      color: #2d426b;
+    }
+  }
+}
+
+/* use css to set position of modal */
+
+.vertical-center-modal {
+  text-align: center;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  &.modal-send-feedback,
+  &.modal-send-approve {
+    transform: translateY(-25%);
+    .ant-modal-footer {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 30px;
+      align-items: center;
+      >span {
+        &:last-child {
+          width: 100%;
+          border-radius: 3px;
+          padding: 7px;
+          text-align: center;
+          margin-top: 5px;
+          border: 1px solid white;
+          cursor: pointer;
+          &:hover {
+            border-color: #4388ff;
+          }
+        }
+      }
+      .ant-btn {
+        &.medium {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.vertical-center-modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.vertical-center-modal .ant-modal {
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  text-align: left;
+}
+
+/*
+// Use flex which not working in IE
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center-modal .ant-modal {
+  top: 0;
+}
+*/
+
+.modal-approve {
+  .ant-modal-footer {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    .medium {
+      padding: 8px 20px;
+    }
+    span {
+      padding: 15px 20px;
+      cursor: pointer;
+    }
+  }
+}
+
+.modal-zoom-image {
+  width: auto !important;
+  .ant-modal-body {
+    display: flex;
+  }
+  &__action {
+    width: 300px;
+  }
+}
+
+.kyc-main,
+.kyc-right-side {
+  transition: all .2s;
+}

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Select, message, Divider, Icon } from "antd";
-import MetaMaskRequire from '../../components/MetaMaskRequire/MetaMaskRequire';
+import { Form, Input, Button, Row, Col, Select, Divider } from "antd";
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
