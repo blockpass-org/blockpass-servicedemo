@@ -386,11 +386,14 @@ export default class KYCDetail extends Component {
 		logStory,
 		isWaitingUserResubmit
 	}) => {
-		if (path([ 'extra', 'submitCount' ])(lastSubmitData) === 1) return null;
+		const tmp = path(['extra', 'submitCount'])(lastSubmitData)
+		if (!tmp || tmp === 1) return null;
+
 		const changeLog =
 			path([ 'extra', 'changeLogs' ])(lastSubmitData).find(
 				(item) => item.slug === category
 			) || [];
+			
 		const getLatestData = logStory.filter(
 			(item) => item.message === 'field-decision'
 		) || [ { status: '', comment: '' } ];
