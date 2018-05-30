@@ -7,8 +7,8 @@ const KYCBlockpassInfo = ({
 	evtHandler,
 	profileItemCount,
 	status,
-	zoomInEvt,
 	historyInfo,
+	waitingUserResubmit
 }) => (
 	<div className="kyc-process">
 		<Row className="kyc-process__profile__title">
@@ -40,8 +40,8 @@ const KYCBlockpassInfo = ({
 				data={data}
 				{...evtHandler}
 				status={status}
-				zoomInEvt={zoomInEvt}
 				historyInfo={historyInfo}
+				waitingUserResubmit={waitingUserResubmit}
 			/>
 		</div>
 	</div>

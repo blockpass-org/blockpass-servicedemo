@@ -35,6 +35,35 @@ module.exports.writeFile = function ({ fileName, mimetype, metadata, fileBuffer 
     })
 }
 
+module.exports.deleteFileBelongToRecordId = function (_id) {
+    return new Promise(async (resolve, reject) => {
+        
+        gfs.collection(GRIDFS_COLLECTION).find({
+            "metadata.recordId": new mongoose.mongo.ObjectId(_id)
+        }, {fields:{_id:1}}).toArray(function (err, files) {
+            const allJobs = files.map(itm => _deleteFileById(itm._id))
+            Promise.all(allJobs)
+                .then(res => resolve(res))
+                .catch(err => reject(err))
+        })
+    })
+}
+
+function _deleteFileById(_id) {
+    return new Promise((resolve, reject) => {
+        gfs.remove({
+            _id,
+            root: GRIDFS_COLLECTION
+        }, function (err) {
+            
+            if (err != null)
+                reject(err)
+            else
+                resolve(err)
+        })
+    })
+}
+
 module.exports.readFile = function (_id) {
     var readstream = gfs.createReadStream({
         _id,

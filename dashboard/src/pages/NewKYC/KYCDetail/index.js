@@ -119,8 +119,7 @@ export default class KYCDetail extends Component {
 				});
 				this._historyHandel(historyData);
 				this.setState({ history: historyData });
-			} else 
-				console.log('history data not found');
+			}
 		}
 	}
 
@@ -138,7 +137,7 @@ export default class KYCDetail extends Component {
 		);
 
 		if (history === null || history.body.length === 0) {
-			return console.log('history Data not found!');
+			return;
 		} else {
 			return history;
 		}
@@ -247,8 +246,6 @@ export default class KYCDetail extends Component {
 			this._closeApproval();
 			message.success('your profile has been certificated !');
 			this.props.history.push('/');
-		} else {
-			this._showError('Internal server error')
 		}
 	}
 
@@ -387,27 +384,32 @@ export default class KYCDetail extends Component {
 		logStory,
 		isWaitingUserResubmit
 	}) => {
-		const tmp = path(['extra', 'submitCount'])(lastSubmitData)
-		if (!tmp || tmp === 1) return null;
-
-		const changeLog =
-			path([ 'extra', 'changeLogs' ])(lastSubmitData).find(
-				(item) => item.slug === category
-			) || [];
-			
-		const getLatestData = logStory.filter(
-			(item) => item.message === 'field-decision'
-		) || [ { status: '', comment: '' } ];
-		if (changeLog && changeLog.new !== changeLog.old) {
-			return {
-				...reviews[category],
-				status: getLatestData[isWaitingUserResubmit ? 1 : 0].status,
-				reason: getLatestData[isWaitingUserResubmit ? 1 : 0].comment,
-				value:
-					type === 'image'
-						? translatePictureUrl(changeLog.old)
-						: changeLog.old
-			};
+		// debugger;
+		if (
+			path([ 'extra', 'submitCount' ])(lastSubmitData) === 1 ||
+			!lastSubmitData
+		) {
+			return null;
+		}
+		const changeLog = path([ 'extra', 'changeLogs' ])(lastSubmitData).find(
+			(item) => item.slug === category
+		);
+		if (changeLog) {
+			const getLatestData = logStory.filter(
+				(item) => item.message === 'field-decision'
+			) || [ { status: '', comment: '' } ];
+			if (changeLog && changeLog.new !== changeLog.old) {
+				return {
+					...reviews[category],
+					status: getLatestData[isWaitingUserResubmit ? 1 : 0].status,
+					reason:
+						getLatestData[isWaitingUserResubmit ? 1 : 0].comment,
+					value:
+						type === 'image'
+							? translatePictureUrl(changeLog.old)
+							: changeLog.old
+				};
+			} else return null;
 		} else return null;
 	};
 
@@ -430,6 +432,12 @@ export default class KYCDetail extends Component {
 		type,
 		isWaitingUserResubmit
 	}) => {
+		if (log.length === 0)
+			return {
+				currentSubmitted: null,
+				logStory: [],
+				lastSubmitData: null
+			};
 		const currentSubmitted = path([ '0', 'extra', 'submitCount' ])(
 			log
 				.filter((item) => item.message === 'record-waiting')
@@ -437,7 +445,6 @@ export default class KYCDetail extends Component {
 		);
 
 		const logStory = this._getLogStory({ log, category });
-
 		const lastSubmitData = log.find(
 			(item) =>
 				item.message === 'record-waiting' &&
@@ -627,7 +634,7 @@ export default class KYCDetail extends Component {
 											status
 										)
 									}
-									zoomInEvt={this.zoomInEvt}
+									waitingUserResubmit={waitingUserResubmit}
 									historyInfo={this.state.reSubmitData}
 								/>
 							)}

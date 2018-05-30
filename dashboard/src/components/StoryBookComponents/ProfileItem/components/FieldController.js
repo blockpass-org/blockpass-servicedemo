@@ -7,7 +7,8 @@ const FieldController = ({
 	status,
 	onChangeHandle,
 	disabledStatus,
-	historyData
+	historyData,
+	isFirstTimeReview
 }) => (
 	<Col span="6">
 		{inProcess === 'approved' ? (
@@ -28,7 +29,15 @@ const FieldController = ({
 			<CheckboxGroup
 				onChangeHandle={onChangeHandle}
 				checked={status}
-				disabled={inProcess === 'waiting' ? true : disabledStatus}
+				disabled={
+					inProcess === 'waiting' ? (
+						true
+					) : isFirstTimeReview ? (
+						false
+					) : (
+						disabledStatus
+					)
+				}
 			/>
 		)}
 	</Col>
