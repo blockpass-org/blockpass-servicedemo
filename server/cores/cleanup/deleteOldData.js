@@ -14,7 +14,6 @@ async function deleteOldData(before) {
     try {
         const listItems = await KYCModel.find({
             "$and": [
-                { 'status': ['approved', 'waiting'] },
                 { 'createdAt': {'$lt': deleteBefore } }
             ]
         }).select("_id").exec() || []
