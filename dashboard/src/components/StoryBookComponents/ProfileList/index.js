@@ -62,8 +62,8 @@ const ProfileList = ({
 	data = {},
 	showModal,
 	status,
-	zoomInEvt,
 	historyInfo,
+	waitingUserResubmit
 }) => {
 	console.log(data, 'inlist');
 	const dataStructure = getCategoryList(data, getCategory);
@@ -82,8 +82,8 @@ const ProfileList = ({
 							key={idx}
 							showModal={showModal}
 							inProcess={status}
-							zoomInEvt={zoomInEvt}
 							historyData={getHistory(item.keyName)}
+							waitingUserResubmit={waitingUserResubmit}
 						/>
 					))}
 				</Item>
@@ -99,8 +99,6 @@ ProfileList.propTypes = {
 	showModal: PropTypes.func,
 	/** status of blockpass process */
 	status: PropTypes.string.isRequired,
-	/** zoom event of image */
-	zoomInEvt: PropTypes.func
 };
 
 export default ProfileList;

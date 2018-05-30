@@ -9,7 +9,6 @@ const HistoryArea = ({
 	reason = '',
 	onChangeHandle,
 	type
-	// zoomInEvt
 }) => (
 	<div className="history-comparison">
 		<Row className="profile-item__content-wrapper">
@@ -26,7 +25,6 @@ const HistoryArea = ({
 						<ImageItem
 							data={value}
 							status={status}
-							// zoomInEvt={zoomInEvt}
 						/>
 					</div>
 				)}

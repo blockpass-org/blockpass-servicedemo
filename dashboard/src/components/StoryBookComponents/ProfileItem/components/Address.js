@@ -21,7 +21,6 @@ const AddressComp = ({
 				type={type}
 				dataValue={dataValue}
 				status={status}
-				// zoomInEvt={zoomInEvt}
 			/>
 		</Col>
 		<Col span={24}>

@@ -58,31 +58,28 @@ const ProfileItem = ({
 	disabled,
 	showModal,
 	inProcess,
-	zoomInEvt,
 	historyData,
 	history,
+	waitingUserResubmit
 }) => {
 	const { lastSubmitData } = history;
 	let addressHistory = null;
 	let addressData = null;
 	let addressHistoryMap = null;
 	let addressMap = null;
-	// debugger;
 	const isFirstTimeReview = !history.logStory.some(
 		(item) => item.message === 'field-decision'
 	);
 	const checkDisabledField =
 		inProcess === 'inreview' &&
 		lastSubmitData === null &&
-		history.logStory.some((item) => item.message === 'field-decision');
+		!waitingUserResubmit;
 	const wrapperClassName = classnames({
 		'profile-item__content-wrapper': true,
 		image: type === 'image',
 		disabled: checkDisabledField
 	});
 	const onChangeHandle = (value) => showModal(keyName, value);
-
-	// debugger;
 
 	if (keyName === 'address') {
 		addressData = getAddressValue({ keyName, dataValue });
@@ -99,19 +96,13 @@ const ProfileItem = ({
 			});
 		}
 	}
-	console.log(addressHistoryMap, addressHistory);
 
 	return (
 		<div className={`profile-item ${keyName}`}>
 			{keyName !== 'address' && <Title title={title} />}
 			<Row className={wrapperClassName}>
 				{keyName !== 'address' ? (
-					<Field
-						type={type}
-						dataValue={dataValue}
-						status={status}
-						// zoomInEvt={zoomInEvt}
-					/>
+					<Field type={type} dataValue={dataValue} status={status} />
 				) : (
 					<Col span={16} style={{ marginRight: '8px' }}>
 						{addressMap &&
@@ -122,10 +113,13 @@ const ProfileItem = ({
 									dataValue={item.value}
 									status={status}
 									{...item}
+									disabledStatus={checkDisabledField}
+									isFirstTimeReview={isFirstTimeReview}
 								/>
 							))}
 						<div style={{ marginTop: '10px' }}>
 							{addressHistoryMap &&
+								inProcess !== 'approved' &&
 								addressHistoryMap.map((item, index) => (
 									<Row key={index}>
 										<h4
@@ -150,6 +144,7 @@ const ProfileItem = ({
 					status={status}
 					onChangeHandle={onChangeHandle}
 					disabledStatus={checkDisabledField}
+					isFirstTimeReview={isFirstTimeReview}
 				/>
 				<HistoryControl keyName={keyName} showModal={showModal} />
 			</Row>
@@ -193,9 +188,8 @@ ProfileItem.propTypes = {
 	/** show modal before accept or reject */
 	showModal: PropTypes.func,
 	/** current process of blockpass flow */
-	inProcess: PropTypes.string,
+	inProcess: PropTypes.string
 	/** event handle when zoom in image */
-	zoomInEvt: PropTypes.func
 };
 
 export default ProfileItem;

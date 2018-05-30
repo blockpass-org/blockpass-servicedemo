@@ -1,11 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const _config = require('./configs')
 const models = require('./models');
 
 const app = express()
 
 const controllerRoute = require('./controllers');
+const intervalCheck = require('./cores/cleanup/intervalCheck')
+const deleteOldData = require('./cores/cleanup/deleteOldData')
 
 // Allow access origin
 app.use(cors({
@@ -26,16 +29,22 @@ if (process.env.SWAGGER_DOC) {
 // middleware
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(require('./middlewares/requestLog'))  
+app.use(require('./middlewares/requestLog'))
 app.use(require('./middlewares/requestTrapError')(controllerRoute))
 
 const port = process.env.SERVER_PORT || 3000
 
-
-
-let server = app.listen(port, '0.0.0.0', function() {
+let server = app.listen(port, '0.0.0.0', function () {
   console.log(`Listening on port ${port}...`)
 })
+
+// clean-up old data schedule
+if (_config.KYC_RECORD_EXPIRED_AFTER_MS) {
+  console.info(`[cleanup] check every ${_config.KYC_RECORD_EXPIRED_AFTER_MS} ms`)
+  intervalCheck(function () {
+    deleteOldData(_config.KYC_RECORD_EXPIRED_AFTER_MS)
+  }, 30000)
+}
 
 // gracefull shutdown
 app.close = _ => server.close();

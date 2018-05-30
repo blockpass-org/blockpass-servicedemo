@@ -1,6 +1,7 @@
 module.exports = {
     JWT_SECRET: process.env.JWT_SECRET || 'hkUgKHkz',
     JWT_TIMEOUT_S: process.env.JWT_TIMEOUT_S || 24 * 60 * 60,
+    KYC_RECORD_EXPIRED_AFTER_MS: process.env.KYC_RECORD_EXPIRED_AFTER_MS,
 
     BLOCKPASS_BASE_URL: process.env.BLOCKPASS_BASE_URL || 'http://172.16.0.203:1339',
     BLOCKPASS_CLIENT_ID: process.env.BLOCKPASS_CLIENT_ID || '3rd_service_demo',

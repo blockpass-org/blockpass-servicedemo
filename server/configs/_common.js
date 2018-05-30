@@ -1,6 +1,7 @@
 module.exports = {
     JWT_SECRET: 'hkUgKHkz',
     JWT_TIMEOUT_S: 24 * 60 * 60,
+    KYC_RECORD_EXPIRED_AFTER_MS: -1,
 
     BLOCKPASS_CLIENT_ID: '3rd_service_demo',
     BLOCKPASS_SECRET_ID: '3rd_service_demo',
