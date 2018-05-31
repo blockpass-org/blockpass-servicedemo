@@ -3,7 +3,7 @@ import { inject } from 'mobx-react';
 import { path, keys, assoc } from 'lodash/fp';
 import { MAP_KEYWORDS, MAP_KEYS, CONFIG_MODEL } from '../map_constant';
 import { Button, Modal, Input, message, Row, Col, Icon } from 'antd';
-import { translatePictureUrl, dateFormat } from '../../../utils';
+import { translatePictureUrl, dateFormat, certStandalize } from '../../../utils';
 import './KYCDetail.scss';
 import '../../../components/StoryBookComponents/index.scss';
 import KYCUserCardInfo from './KYCUserCardInfo';
@@ -27,13 +27,39 @@ export default class KYCDetail extends Component {
 			showModal: (title, type) => this._showModal(title, type)
 		},
 		dataCert: [],
-		reviewEvt: () => console.log('review'),
+		reviewEvt: (id) => this._reviewCertificateEvt(id),
 		historyModalStatus: false,
 		submitReason: '',
 		modal: '',
 		historyField: [],
 		authors: {},
 		reSubmitData: []
+	};
+
+	/**
+ * action when click button review certificate (for demo version)
+ * @param  {object} rawData certificate rawData
+ */
+
+	_reviewCertificateEvt = (rawData) => {
+
+		const codeDialogStyle = {
+			height: 'auto',
+			maxHeight: '500px',
+			overflow: 'auto',
+			backgroundColor: '#eeeeee',
+			wordBreak: 'normal!important',
+			wordBrap: 'normal !important',
+			whiteSpace: 'pre !important',
+		}
+
+		Modal.info({
+			title: 'Certificate Review',
+			width: 750,
+			content: <pre style={codeDialogStyle} >
+				{JSON.stringify(rawData, null, 2)}
+			</pre>
+		});
 	};
 
 	/**
@@ -110,12 +136,17 @@ export default class KYCDetail extends Component {
 
 					return profile;
 				}, {});
+				const certificateData = this._certificateDataHandle(data.certs);
 				this.setState({
 					profileData,
 					userID: data._id,
 					userEmail: path([ 'identities', 'email' ])(data),
 					status: data.status,
 					waitingUserResubmit: data.waitingUserResubmit
+				});
+				this.setState({
+					dataCert: certificateData,
+					certificateItemCount: certificateData.length
 				});
 				this._historyHandel(historyData);
 				this.setState({ history: historyData });
@@ -142,6 +173,27 @@ export default class KYCDetail extends Component {
 			return history;
 		}
 	}
+
+	/**
+ * handle certificate data
+ *
+ * @param  {object} certs certificate data
+ */
+
+	_certificateDataHandle = (certs) => {
+		const certsData = Object.keys(certs).map((item) => {
+			let result;
+			try {
+				result = JSON.parse(certs[item]);
+			} catch (e) {
+				result = null;
+			}
+			return result;
+		});
+		const tmp = certsData.map((item) => certStandalize(item));
+		console.log(tmp)
+		return tmp;
+	};
 
 	/**
  * handle data history

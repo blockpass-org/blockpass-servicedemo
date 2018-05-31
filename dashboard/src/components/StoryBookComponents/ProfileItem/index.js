@@ -26,8 +26,20 @@ import {
  * 
  */
 
-export const getAddressValue = ({ keyName, dataValue }) =>
-	keyName === 'address' ? JSON.parse(dataValue) : {};
+export const getAddressValue = ({ keyName, dataValue }) => {
+	let result = {};
+	if (keyName === 'address') {
+		try {
+			result = JSON.parse(dataValue);
+		} catch (e) {
+			result = {
+				address: dataValue
+			};
+		}
+	}
+
+	return result;
+};
 
 /**
  * Get data from Address Object
@@ -40,7 +52,6 @@ export const getAddressValue = ({ keyName, dataValue }) =>
  */
 
 export const getAddressKeyMap = ({ addressData, keyName }) => {
-	// debugger;
 	return MAP_ADDRESS_ORDER.map((item) => ({
 		...item,
 		value: addressData[item.keyName]

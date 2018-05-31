@@ -1,4 +1,5 @@
 import stores from '../stores';
+import certStandalize from "./certsStandalize";
 
 export function translatePictureUrl(itm) {
 	console.log(itm, 'uti');
@@ -110,3 +111,5 @@ export function dateFormat(dateString) {
 		date.getMonth()
 	]} ${date.getFullYear()}`;
 };
+
+export { certStandalize }

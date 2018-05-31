@@ -14,7 +14,8 @@ const CertificateItem = ({
 	data = { signature: null, match: 0, unmatch: 0 },
 	reviewEvt,
 	id,
-	content
+	content,
+	_rawCert
 }) => {
 	return (
 		<div className="certificate-item">
@@ -36,7 +37,7 @@ const CertificateItem = ({
 				</div>
 			</div>
 			<div className="certificate-item__result-wrapper">
-				{status !== 'reviewed' ? (
+				{/* {status !== 'reviewed' ? (
 					<Link
 						to={{
 							pathname: '/review-certificate',
@@ -90,7 +91,9 @@ const CertificateItem = ({
 							</div>
 						</div>
 					</div>
-				)}
+				)} */}
+
+				<Button onClick={(evt) => reviewEvt(_rawCert)}>Detail</Button>
 			</div>
 		</div>
 	);
@@ -102,11 +105,11 @@ CertificateItem.propTypes = {
 	/**  name of certificate provider  */
 	title: PropTypes.string.isRequired,
 	/**  issused date of validation */
-	issueDate: PropTypes.string.isRequired,
+	issueDate: PropTypes.string,
 	/**  expiration of validation */
-	expiration: PropTypes.string.isRequired,
+	expiration: PropTypes.string,
 	/**  status of validation */
-	status: PropTypes.string.isRequired,
+	status: PropTypes.string,
 	/** data of validation (signature, match & unmatch)  */
 	data: PropTypes.shape({
 		signature: PropTypes.bool,

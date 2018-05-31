@@ -13,7 +13,6 @@ const CertificateList = ({ data = [], reviewEvt, id }) => {
 						<span>ISSUED BY</span>
 						<div className="certificate-list__label-date">
 							<span>ISSUED DATE</span>
-							<span>EXPIRATION</span>
 						</div>
 					</div>
 				</Row>
