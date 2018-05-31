@@ -24,13 +24,16 @@ class LoginPage extends Component {
 
     _handleSubmit = (e) => {
         const { ApplicationStore, Auth, history } = this.props;
+        const { isDev } = ApplicationStore;
+
 
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
 
                 // Update host
-                ApplicationStore.setHost(values.host);
+                if (isDev)
+                    ApplicationStore.setHost(values.host);
 
                 const tokenInfo = await ApplicationStore.login(values.userName, values.password);
                 if (!tokenInfo)
