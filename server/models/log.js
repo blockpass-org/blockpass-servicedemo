@@ -44,24 +44,6 @@ if (process.env.NODE_ENV !== 'production') {
         ),
         handleExceptions: true
     }));
-
-    logger.add(new winston.transports.DailyRotateFile({
-        level: 'error',
-        handleExceptions: true,
-        exitOnError: false,
-        filename: '.logs/error-%DATE%.log',
-        datePattern: 'YYYY-MM-DD-HH',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d'
-    }));
-    logger.add(new winston.transports.DailyRotateFile({
-        filename: '.logs/combined-%DATE%.log',
-        datePattern: 'YYYY-MM-DD-HH',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d'
-    }));
    
 } else {
     logger.add(new winston.transports.DailyRotateFile({ 
