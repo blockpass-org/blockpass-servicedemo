@@ -111,9 +111,9 @@ KYCModelSchema.methods.certStatus = function (name) {
             status: 'received'
         }
 
-    const { decision, comment } = reviewResult
+    const { status, comment } = reviewResult
     return {
-        status: decision,
+        status: status,
         comment
     }
 }
