@@ -190,6 +190,15 @@ module.exports = function (router, getServerSdk) {
                     }
                 })
 
+                //[PushNotification] Send notice to user
+                const pnTitle = 'Blockpass demo certificate'
+                const pnMessage = message
+                const bpTicket = await getServerSdk().userNotify({
+                    message: pnMessage,
+                    title: pnTitle,
+                    bpToken
+                })
+
                 return res.json({
                     cer: cer
                 })
