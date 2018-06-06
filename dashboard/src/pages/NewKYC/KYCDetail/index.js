@@ -369,7 +369,7 @@ export default class KYCDetail extends Component {
     }
     const changeLog = path(['extra', 'changeLogs'])(lastSubmitData).find((item) => item.slug === category);
     if (changeLog) {
-      const getLatestData = logStory.filter((item) => item.message === 'field-decision');
+      let getLatestData = logStory.filter((item) => item.message === 'field-decision');
 
       // safeguard
       if (!getLatestData || getLatestData.length === 0)
