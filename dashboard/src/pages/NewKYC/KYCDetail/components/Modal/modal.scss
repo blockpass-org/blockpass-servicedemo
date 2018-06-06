@@ -1,0 +1,251 @@
+.modal-header {
+  &__title {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+  &__description {
+    color: white;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0;
+  }
+  &__wrapper {
+    border-radius: 6px 6px 0 0;
+    padding: 24px 24px 16px 24px;
+    &.rejected,
+      {
+      background-color: #ff334b;
+    }
+    &.accept,
+    &.confirm,
+    &.approval,
+    &.info {
+      background-color: #4388ff;
+    }
+    &.send-feedback {
+      background-color: #404042;
+    }
+  }
+}
+
+.modal-body {
+  &__text-area {
+    margin-bottom: 24px;
+    textarea {
+      min-height: 105px;
+    }
+  }
+  &__devider {
+    color: rgba(64, 64, 66, 0.68);
+    font-size: 16px;
+    span {
+      color: rgba(64, 64, 66, 0.24);
+      margin-right: 5px;
+    }
+  }
+  &__wrapper {
+    padding: 24px;
+    background-color: white;
+    .ant-radio-button-wrapper {
+      border-radius: 18px;
+      border: solid 1px #4388ff;
+      color: #4388ff;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      min-height: 32px;
+      height: auto;
+      &::before {
+        display: none;
+      }
+      span {
+        word-break: normal;
+      }
+    }
+    .ant-radio-button-wrapper-checked {
+      background-color: #4388ff;
+      color: white;
+    }
+  }
+}
+
+.ant-modal-body,
+.ant-modal-header {
+  padding: 0;
+}
+
+.modal-footer {
+  border-radius: 0 0 6px 6px;
+  padding: 24px;
+  background-color: #f5f5f5;
+  .big {
+    display: block;
+    margin: 0 auto;
+    border-radius: 24px;
+    padding: 10px 48px;
+    min-height: 48px;
+    &:hover {
+      border-radius: 24px;
+    }
+    &.disable {
+      opacity: 0.5;
+    }
+    &.black {
+      background-color: #404042;
+    }
+  }
+  &.approval {
+    .ant-btn {
+      &.big {
+        height: 48px;
+        min-height: 48px;
+      }
+      &:first-child {
+        margin-bottom: 16px;
+      }
+    }
+  }
+}
+
+.modal-info {
+  &__body {
+    background-color: white;
+    padding: 24px;
+    p {
+      color: rgba(64, 64, 66, 0.68);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+  }
+  &__footer {
+    background-color: white;
+    padding: 24px;
+    text-align: right;
+    .ant-btn {
+      &.small {
+        border-radius: 18px;
+        height: 36px;
+        margin-left: 16px;
+        min-width: 100px;
+      }
+      &.black {
+        background-color: #404042;
+      }
+    }
+  }
+}
+
+.modal-approve-confirm {
+  &__body {
+    padding: 24px;
+    background-color: white;
+    p {
+      padding: 16px;
+      border-radius: 4px;
+      border: solid 1px rgba(64, 64, 66, 0.68);
+    }
+  }
+}
+
+.icon-back {
+  margin-right: 14px;
+  i {
+    font-size: 16px;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.modal-history {
+  min-width: 880px;
+  .modal-header {
+    &__wrapper {
+      background-color: #fff;
+      padding-bottom: 0;
+    }
+    &__title {
+      color: rgba(64, 64, 66, 0.68);
+      margin-bottom: 0;
+    }
+  }
+  .ant-modal-body {
+    border-radius: 0 0 6px 6px;
+    padding: 24px;
+    background-color: white;
+  }
+  .ant-table-thead {
+    tr {
+      th {
+        border-top: 1px solid #e8e8e8;
+        color: rgba(64, 64, 66, 0.36);
+        padding: 11px;
+        &:first-child {
+          border-left: 1px solid #e8e8e8;
+          border-radius: 6px 0 0 6px;
+        }
+        &:last-child {
+          border-right: 1px solid #e8e8e8;
+          border-radius: 0 6px 6px 0;
+        }
+      }
+    }
+  }
+  .ant-table-tbody {
+    tr {
+      color: #404042;
+      vertical-align: baseline;
+      td {
+        font-size: 16px;
+        &:first-child,
+        &:nth-child(4) {
+          color: rgba(64, 64, 66, 0.36);
+        }
+      }
+    }
+    .status {
+      &-accepted {
+        color: #4388ff;
+      }
+      &-rejected {
+        color: #ff334b;
+      }
+    }
+    .reason-history {
+      width: 75px;
+      height: 22px;
+      border-radius: 18px;
+      border: solid 1px rgba(128, 174, 255, 0.91);
+      padding: 5px 14px;
+      font-size: 14px;
+      color: #4388ff;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .ant-modal-close-x {
+    color: #404042;
+  }
+}
+
+.ant-modal-close-x {
+  color: rgba(255, 255, 255, 0.8)
+}
+
+.ant-modal,
+.ant-modal-header,
+.ant-modal-content {
+  border-radius: 6px;
+}
+
+.ant-modal-header,
+.ant-modal-content {
+  background: none;
+  border-bottom: 0;
+}
+
+.modal-info-antd {
+  background: white;
+}
