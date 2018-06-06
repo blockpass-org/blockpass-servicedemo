@@ -24,15 +24,15 @@ async function generateCertificate(kycRecord, message, serverSdk, others = '') {
     }
 
     const hashIdentities = {}
-    await Object.keys(kycRecord.identities)
-       .forEach(async key => {
-           const bpKey = CROSS_DB_FIELD_MAPS_INVERSE[key]
-           if (!bpKey) return;
-
-           const hashVal = await kycRecord.getIdentityHash(key)
-           if (hashVal)
-               hashIdentities[toCamel(bpKey)] = hashVal
-       })
+    const allIdentities = kycRecord.identities.toObject()
+    for (const key in allIdentities) {
+        const bpKey = CROSS_DB_FIELD_MAPS_INVERSE[key]
+        if (!bpKey) continue;
+        const hashVal = await kycRecord.getIdentityHash(key)
+        if (hashVal){
+            hashIdentities[toCamel(bpKey)] = hashVal
+        }
+    }
 
     const entityInfo = {
         ...hashIdentities,
