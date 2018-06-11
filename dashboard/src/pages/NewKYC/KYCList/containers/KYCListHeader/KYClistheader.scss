@@ -1,0 +1,37 @@
+.kyc-list {
+  &__status-label {
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+  }
+  &__input {
+    width: 360px;
+    height: 50px;
+    border-radius: 14px;
+    border-radius: 24px;
+    border: solid 1px #ffffff;
+    &-wrapper {
+      position: relative;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+  }
+  &__header-row {
+    display: flex;
+    min-width: 1000px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  &__search-wrapper {
+    display: flex;
+    i {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 20px;
+      font-size: 20px;
+      color: white;
+    }
+  }
+}

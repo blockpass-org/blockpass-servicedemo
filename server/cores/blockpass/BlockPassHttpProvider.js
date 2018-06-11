@@ -13,6 +13,31 @@ class BlockpassHttpProvider {
     this._secretId = secretId;
   }
 
+  async queryPublicKey(hash) {
+    try {
+
+      // remove begin slash
+      if (hash.startsWith('/'))
+        hash = hash.substr(1, hash.length)
+      
+      const { _clientId, _secretId, _baseUrl } = this;
+
+      const pubKeyResponse = await request
+        .get(_baseUrl + api.PUBKEY_PATH + hash)
+
+      if (pubKeyResponse.status !== 200) {
+        console.error("[BlockPass] queryPublicKey Error", pubKeyResponse.text);
+        return null;
+      }
+
+      return pubKeyResponse.body
+
+    } catch(error) {
+      console.error("queryServiceMetadata failed: ", error);
+      return null;
+    }
+  }
+
   async queryServiceMetadata() {
     try {
       const { _clientId, _secretId, _baseUrl } = this;

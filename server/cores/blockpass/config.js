@@ -7,6 +7,7 @@ const api = {
   SSO_COMPETE_PATH: "/api/v0.3/service/complete/",
   GET_PROOF_OF_PATH: "/api/v0.3/service/getProof",
   CERTIFICATE_ACCEPT_PATH: "/api/v0.3/certificate_new/",
-  NOTIFICATION_PATH: "/api/v0.3/certificate_new/feedBack"
+  NOTIFICATION_PATH: "/api/v0.3/certificate_new/feedBack",
+  PUBKEY_PATH: "/api/v0.3/service/pubKeyHash/",
 };
 module.exports.api = api;

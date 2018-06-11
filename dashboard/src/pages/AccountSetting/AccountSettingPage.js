@@ -55,7 +55,7 @@ class AccountSettingPage extends React.Component {
 						rules: [
 								{
 										required: true,
-										message: 'Please input this!'
+										message: 'Please input password!'
 								}
 						],
 						onCustomRender: (_) => <Input type="password"/>
@@ -64,12 +64,12 @@ class AccountSettingPage extends React.Component {
 						rules: [
 								{
 										required: true,
-										message: 'Please input this!'
+										message: 'Please repeat password.'
 								}, {
 										validator: (rule, value, callback) => {
 												const form = this.props.form;
 												if (value && value !== form.getFieldValue('pass')) {
-														callback('Two passwords that you enter is inconsistent!');
+														callback('Passwords do not match!');
 												} else {
 														callback();
 												}

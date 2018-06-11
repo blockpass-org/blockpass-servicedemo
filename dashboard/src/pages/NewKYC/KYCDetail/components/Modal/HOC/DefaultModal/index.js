@@ -25,7 +25,6 @@ class DefaultModal extends Component {
 
 	render() {
 		const { value } = this.state;
-		console.log(this.state.value, 'leng ');
 		return (
 			<WrapperModal
 				{...this.props}

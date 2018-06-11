@@ -10,7 +10,6 @@ import LoginPage from './pages/Login/LoginPage';
 import FirstSetupPage from "./pages/FirstSetup/FirstSetupPage";
 import QuickTest from './pages/QuickTest/QuickTest';
 
-
 class App extends Component {
 
   @observer

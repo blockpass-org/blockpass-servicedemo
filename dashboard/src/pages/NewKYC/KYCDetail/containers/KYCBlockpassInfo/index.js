@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import ProfileList from '../../../../components/StoryBookComponents/ProfileList';
+import ProfileList from '../../../../../components/StoryBookComponents/ProfileList';
 
 const KYCBlockpassInfo = ({
 	data,
@@ -8,12 +8,13 @@ const KYCBlockpassInfo = ({
 	profileItemCount,
 	status,
 	historyInfo,
-	waitingUserResubmit
+	waitingUserResubmit,
+	zoomEvt
 }) => (
 	<div className="kyc-process">
 		<Row className="kyc-process__profile__title">
 			<Col span={16}>
-				<div>Blockpass profile</div>
+				<div>User profile</div>
 			</Col>
 			{status !== 'approved' && (
 				<Col
@@ -42,6 +43,7 @@ const KYCBlockpassInfo = ({
 				status={status}
 				historyInfo={historyInfo}
 				waitingUserResubmit={waitingUserResubmit}
+				zoomEvt={zoomEvt}
 			/>
 		</div>
 	</div>

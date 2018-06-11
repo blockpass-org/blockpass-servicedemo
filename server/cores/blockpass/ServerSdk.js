@@ -11,19 +11,19 @@ jsig.use('jsonld', jsonld);
  * @class Class ServerSdk
  */
 class ServerSdk {
-                                  
-                              
-                              
-                                        
-                                                   
-                                                 
-                         
-                           
-                           
-                  
-                   
-                                               
-                                                 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /**
    *
@@ -107,10 +107,10 @@ class ServerSdk {
   async loginFow({
     code,
     sessionCode
-  }   
-                 
-                       
-   )                                          {
+  }
+
+
+  ) {
     if (code == null || sessionCode == null)
       throw new Error("Missing code or sessionCode");
 
@@ -159,11 +159,11 @@ class ServerSdk {
       const ssoData = await Promise.resolve(
         this.generateSsoPayload
           ? this.generateSsoPayload({
-              kycProfile,
-              kycRecord,
-              kycToken,
-              payload
-            })
+            kycProfile,
+            kycRecord,
+            kycToken,
+            payload
+          })
           : {}
       );
       const res = await this.blockPassProvider.notifyLoginComplete(
@@ -196,11 +196,11 @@ class ServerSdk {
     accessToken,
     slugList,
     ...userRawData
-  }   
-                        
-                       
-                       
-   )                                          {
+  }
+
+
+
+  ) {
     if (!slugList) throw new Error("Missing slugList");
 
     const decodeData = this._decodeDataFromToken(accessToken);
@@ -234,11 +234,11 @@ class ServerSdk {
       const ssoData = await Promise.resolve(
         this.generateSsoPayload
           ? this.generateSsoPayload({
-              kycProfile,
-              kycRecord,
-              kycToken,
-              payload
-            })
+            kycProfile,
+            kycRecord,
+            kycToken,
+            payload
+          })
           : {}
       );
       const res = await this.blockPassProvider.notifyLoginComplete(
@@ -262,9 +262,9 @@ class ServerSdk {
    */
   async registerFlow({
     code
-  }   
-                
-   )                                          {
+  }
+
+  ) {
     if (code == null) throw new Error("Missing code or sessionCode");
 
     const kycToken = await this.blockPassProvider.doHandShake(code);
@@ -321,10 +321,10 @@ class ServerSdk {
   async queryStatusFlow({
     code,
     sessionCode
-  }   
-                 
-                        
-   )                                    {
+  }
+
+
+  ) {
     if (code == null) throw new Error("Missing code or sessionCode");
 
     let handShakePayload = [code]
@@ -419,7 +419,7 @@ class ServerSdk {
       "@context": [{
         "@version": 1.1,
       },
-        cerSchema.url,
+      cerSchema.url,
         "https://w3id.org/security/v2",
       ],
       "Entity": {
@@ -444,7 +444,7 @@ class ServerSdk {
 
       //Send to Blockpass
       const signResponse = await this.blockPassProvider.acceptCertificate(bpToken, sign)
-      this._activityLog("[Blockpass-Api]",signResponse)
+      this._activityLog("[Blockpass-Api]", signResponse)
 
 
       return signResponse;
@@ -457,6 +457,81 @@ class ServerSdk {
 
   //-----------------------------------------------------------------------------------
   /**
+   * Sign new Certificate and send to Blockpass
+   * 
+   */
+  async validateCertificate(cerObject) {
+
+    const { Organization } = cerObject
+
+    if (!Organization)
+      throw new Error("Certificate wrong format")
+
+    const { identifier } = Organization
+    const { blockPassProvider } = this
+
+    const ver = await jsig.promises.verify(cerObject, {
+      algorithm: 'EcdsaKoblitzSignature2016',
+      checkNonce(nonce, options, callback) {
+        console.log("[Nonce]", nonce);
+
+        options.context = {}
+
+        // Todo: Check env
+
+        callback(null, true);
+      },
+      publicKey: function (creator, options, callback) {
+        console.log("[Query Key]", creator);
+
+        // api creator -> publickey
+        const p = blockPassProvider.queryPublicKey(creator)
+
+        p.then(creatorInfo => {
+          if(!creatorInfo)
+            return callback(new Error(`${creator} not found`))
+
+          const { status, result } = creatorInfo
+          const { publicKey, clientId } = result
+
+          if (status !== 'success')
+            return callback(new Error("public key not found"))
+
+          // Temporary. [Todo] SC check
+          options.context[`/${clientId}`] = creator
+
+          const pkey = {
+            '@context': jsig.SECURITY_CONTEXT_URL,
+            id: creator,
+            owner: `/${clientId}`,
+            type: 'CryptographicKey',
+            publicKeyWif: publicKey
+          }
+          callback(null, pkey)
+        })
+        
+      },
+      publicKeyOwner: function (owner, options, callback) {
+        console.log("[Query Owner]", owner);
+
+        // Temporary. [Todo] SC check
+        const result = {
+          '@context': jsig.SECURITY_CONTEXT_URL,
+          id: owner,
+          publicKey: [options.context[owner]]
+        }
+        callback(null, result)
+
+      },
+      checkTimestamp: function () { return true }
+    })
+
+    return ver
+
+  }
+
+  //-----------------------------------------------------------------------------------
+  /**
    * Reject a given Certificate
    */
   async userNotify({
@@ -465,7 +540,7 @@ class ServerSdk {
 
     bpToken
   }) {
-    
+
     const res = await this.blockPassProvider.notifyUser(
       bpToken,
       message,
@@ -497,14 +572,14 @@ class ServerSdk {
     console.log(...args);
   }
 
-  _encodeDataIntoToken(payload     )         {
+  _encodeDataIntoToken(payload) {
     const { encodeSessionData } = this;
     if (encodeSessionData) return encodeSessionData(payload);
 
     return jwt.sign(payload, this.secretId);
   }
 
-  _decodeDataFromToken(accessToken        )          {
+  _decodeDataFromToken(accessToken) {
     try {
       const { decodeSessionData } = this;
       if (decodeSessionData) return decodeSessionData(accessToken);
@@ -515,7 +590,7 @@ class ServerSdk {
     }
   }
 
-  _serviceRequirement()       {
+  _serviceRequirement() {
     const { requiredFields, certs, optionalFields } = this
 
     const identities = requiredFields.map(itm => {
@@ -540,9 +615,9 @@ class ServerSdk {
    * Check Merkle proof for invidual field
    */
   merkleProofCheckSingle(
-    rootHash        ,
-    rawData                 ,
-    proofList     
+    rootHash,
+    rawData,
+    proofList
   ) {
     return merkleTreeHelper.validateField(rootHash, rawData, proofList);
   }
@@ -554,29 +629,29 @@ module.exports = ServerSdk;
  * --------------------------------------------------------
  * @type {Object}
  */
-                          
-                  
-                   
-                   
-                           
-                           
-                  
-                                  
-                              
-                              
-                                        
-                                                   
-                                                 
-                                                
-                                               
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * KYC Records
  * @type {object}
  */
-                     
+
 
 /**
  * --------------------------------------------------------
@@ -596,118 +671,118 @@ module.exports = ServerSdk;
  *  ....
  * }
  */
-                                 
-                                            
-  
+
+
+
 
 /**
  *
  * String fields from Mobile App
  * @type {Object}
  */
-                      
-                 
-               
-  
+
+
+
+
 
 /**
  *
  * Binary fields from Mobile App
  * @type {Object}
  */
-                    
-               
-                 
-                       
-  
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * KYC Record Status
  * @type {object}
  */
-                                 
-                       
-                   
-                     
-                                   
-                                    
-  
+
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * Currently KycRecord status: "notFound" | "waiting" | "inreview" | "approved"
  * @type {string}
  */
-                                                                     
+
 
 /**
  * --------------------------------------------------------
  * KYC Record 's Field Status
  * @type {object}
  */
-                          
-               
-                              
-                 
-  
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * Status for invidual fields: "received" | "approved" | "rejected" | "missing";
  * @type {string}
  */
-                                                                            
+
 
 /**
  * --------------------------------------------------------
  * Blockpass Kyc Profile object
  * @type {object}
  */
-                   
-             
-                          
-                   
-                        
-  
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * Kyc Profile 's syncing status: "syncing" | "complete"
  * @type {string}
  */
-                                         
+
 
 /**
  * --------------------------------------------------------
  * Blockpass KycToken object
  * @type {object}
  */
-                 
-                       
-                     
-                       
-  
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
  * Client Next action: "none" | "upload"
  * @type {string}
  */
-                                        
+
 
 /**
  * --------------------------------------------------------
  * Blockpass Mobile Response
  * @type {object}
  */
-                                       
-                             
-                   
-                       
-                            
-                           
-  
+
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
@@ -716,7 +791,7 @@ module.exports = ServerSdk;
  * @param {string} kycId
  * @return {Promise<KycRecord>}
  */
-                                                                
+
 
 /**
  * --------------------------------------------------------
@@ -726,7 +801,7 @@ module.exports = ServerSdk;
  * @param {KycProfile} params.kycProfile
  * @returns {Promise<KycRecord>}
  */
-                                                                           
+
 
 /**
  * --------------------------------------------------------
@@ -739,12 +814,12 @@ module.exports = ServerSdk;
  * @param {Object} params.userRawData
  * @returns {Promise<KycRecord>}
  */
-                          
-                         
-                       
-                     
-                     
-                         
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
@@ -754,9 +829,9 @@ module.exports = ServerSdk;
  * @param {KycRecord} params.kycRecord
  * @returns {Promise<MobileAppKycRecordStatus>}
  */
-                               
-                      
-                                        
+
+
+
 
 /**
  * --------------------------------------------------------
@@ -769,12 +844,12 @@ module.exports = ServerSdk;
  * @param {Object} params.payload
  * @returns {Promise<Object>}
  */
-                                 
-                         
-                       
-                     
-                 
-                      
+
+
+
+
+
+
 
 /**
  * --------------------------------------------------------
@@ -787,9 +862,9 @@ module.exports = ServerSdk;
  * @param {Object} params.payload
  * @returns {Promise<BlockpassMobileResponsePayload>;}
  */
-                                   
-                         
-                       
-                     
-                 
-                                              
+
+
+
+
+
+

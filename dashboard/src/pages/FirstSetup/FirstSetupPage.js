@@ -36,7 +36,7 @@ class FirstSetupPage extends Component {
                 })
 
                 if (!setupRequest)
-                    return message.error("frist time setup error")
+                    return message.error("First time setup error")
 
                 // message.info('Login Success');
                 // history.replace('/');
@@ -55,7 +55,7 @@ class FirstSetupPage extends Component {
                 <Form onSubmit={this._handleSubmit} className="setup-form">
                     <FormItem>
                         {getFieldDecorator('deployKey', {
-                            rules: [{ required: true, message: 'You can find this on docker-compose or DELOY_SECRET_KEY env' }],
+                            rules: [{ required: true, message: 'You can find this on docker-compose or DEPLOY_SECRET_KEY env' }],
                         })(
                             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} autoComplete="off" type="password" placeholder="Deployment Key" />
                         )}

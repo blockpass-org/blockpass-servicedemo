@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MAP_KEYWORDS } from '../../../map_constant';
-import { dateFormat } from '../../../../../utils';
+import { MAP_KEYWORDS } from '../../../../map_constant';
+import { dateFormat } from '../../../../../../utils';
 import { path } from 'lodash/fp';
 import './right-side-bar.scss';
 
@@ -20,7 +20,7 @@ class RightSideBar extends Component {
 		 *      - start review by reviewer
 		 */
 			case 'record-start-review':
-				return { status: '', msg: `Start review` };
+				return { status: '', msg: `Review started` };
 			/**
 		 * message: field-decision
 		 * triggers:
@@ -39,14 +39,14 @@ class RightSideBar extends Component {
 		 *      - send feedback to user
 		 */
 			case 'record-feedback':
-				return { status: '', msg: `Send feedback` };
+				return { status: '', msg: `Feedback sent` };
 			/**
 		 * message: record-approve
 		 * triggers:
 		 *      - certificate sign and send to blockpass server
 		 */
 			default:
-				return { status: '', msg: `Approve Profile` };
+				return { status: '', msg: `Profile accepted` };
 		}
 	};
 

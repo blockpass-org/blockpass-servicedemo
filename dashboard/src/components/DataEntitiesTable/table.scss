@@ -1,0 +1,98 @@
+.kyc-list {
+  &__table {
+    .ant-table {
+      margin: 40px auto;
+      max-width: 1200px;
+      min-width: 1000px;
+      border-radius: 4px 4px 0 0;
+      min-width: 1000px;
+      thead {
+        vertical-align: baseline;
+        p {
+          margin: 0;
+        }
+      }
+      &-status {
+        padding: 3px 8px;
+        border-radius: 13.5px;
+        background-color: #404042;
+        color: white;
+        min-width: 100px;
+        width: 100px;
+        display: inline-block;
+        text-align: center;
+        &.rejected {
+          background-color: #ff334b;
+        }
+        &.inreview {
+          background-color: #4388ff;
+        }
+        &.approved {
+          background-color: #41bf58;
+        }
+      }
+      .ant-table-thead {
+        th {
+          cursor: default;
+          border-top: solid 2px #ccdfff;
+          border-bottom: solid 2px #ccdfff;
+          background-color: #f5f9ff;
+          color: rgba(64, 64, 66, 0.36);
+          font-weight: bold;
+          &:first-child {
+            border-left: solid 2px #ccdfff;
+            padding: 27px 27px 27px 80px;
+          }
+          &:last-child {
+            border-right: solid 2px #ccdfff;
+            padding: 27px 80px 27px 16px;
+          }
+          &:nth-child(4) {
+            text-align: center;
+          }
+        }
+      }
+      tr {
+        background-color: white;
+        td {
+          &:first-child {
+            border-left: solid 2px #ccdfff;
+            padding: 27px 27px 27px 80px;
+          }
+          &:last-child {
+            border-right: solid 2px #ccdfff;
+          }
+          &:nth-child(4) {
+            text-align: center;
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
+        &:nth-child(2n) {
+          background-color: #fafcff;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .ant-table-footer {
+        border: solid 2px #ccdfff;
+      }
+    }
+    .ant-table-pagination {
+      &.ant-pagination {
+        min-width: 1000px;
+        margin: 27px;
+        text-align: center;
+        float: none;
+      }
+    }
+    .ant-table-placeholder {
+      border-right: solid 2px #ccdfff;
+      border-left: solid 2px #ccdfff;
+    }
+  }
+  &__hour {
+    color: rgba(64, 64, 66, 0.36);
+  }
+}

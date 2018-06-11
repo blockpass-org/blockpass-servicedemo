@@ -4,12 +4,6 @@
 # build environment
 FROM node:carbon-alpine as builder
 
-ARG REACT_APP_API_HOST
-ENV REACT_APP_API_HOST=${REACT_APP_API_HOST}
-
-ARG REACT_APP_ENV
-ENV REACT_APP_ENV=${REACT_APP_ENV}
-
 RUN mkdir -p /usr/src/dashboard
 WORKDIR /usr/src/dashboard
 

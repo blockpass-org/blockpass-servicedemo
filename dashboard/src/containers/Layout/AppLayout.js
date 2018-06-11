@@ -37,7 +37,7 @@ class AppLayout extends Component {
 						textAlign: 'center'
 					}}
 				>
-					Blockpass Demo Services ©2018 Powered by Ant UED
+					Blockpass Demo Services ©2018
 				</Footer>
 			</Layout>
 		);

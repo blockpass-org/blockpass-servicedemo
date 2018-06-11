@@ -119,12 +119,12 @@ class UserDetailPage extends Component {
 
 		const canProcess = this._canGoToNext();
 		if (!canProcess)
-			return this._showError('User are missing some critical fileds');
+			return this._showError('Some critical fields are missing');
 
 		Modal.confirm({
 			title: 'Are you sure ?',
 			content:
-				'We will notify user that. Their review process is starting.',
+				'We will notify the user that the review process is starting.',
 			onOk: async () => {
 				const startReviewProcess = await ApplicationStore.startReview(
 					_id,
@@ -152,7 +152,7 @@ class UserDetailPage extends Component {
 
 		Modal.confirm({
 			title: 'Are you sure ?',
-			content: 'We will notify user about this decission.',
+			content: 'We will notify the user about this decision.',
 			onOk: async () => {
 				let reviewProcess = null;
 				if (isAccept)

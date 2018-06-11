@@ -1,5 +1,5 @@
 import React, { Fragment} from 'react';
-import {Steps, CheckingIDStep} from '../../../../components/StoryBookComponents';
+import {Steps, CheckingIDStep} from '../../../../../components/StoryBookComponents';
 
 const KYCUserCardInfo = (props) => <Fragment>
         <div className="kyc-process waiting-review">

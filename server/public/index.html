@@ -45,6 +45,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-99834864-5');
     </script>
+    <script src="/web/env.js"></script>
     <script src="./sdk/blockpass.dev.js"></script>
     <script src="/assets/js/web/assets/jquery/jquery.min.js"></script>
     <script src="/assets/js/tether/tether.min.js"></script>
@@ -272,9 +273,12 @@
     </footer>
 
     <script>
-        const clientId = '3rd_service_demo'
-        const secretId = '3rd_service_demo'
-        const baseUrl = 'https://sandbox-api.blockpass.org'
+
+        // safeguard
+        window.env = window.env || {}
+
+        const clientId = window.env.BLOCKPASS_CLIENT_ID
+        const baseUrl = window.env.BLOCKPASS_BASE_URL
         const jq = window.jQuery
 
         /** Blockpass SSO session generated
@@ -349,7 +353,6 @@
         window.addEventListener('load', _ => {
             sdk = new window.Blockpass.WebSDK({
                 clientId,
-                secretId,
                 baseUrl,
                 refreshRateMs: 5000
             })

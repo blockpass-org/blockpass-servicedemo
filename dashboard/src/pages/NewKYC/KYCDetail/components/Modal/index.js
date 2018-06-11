@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MAP_KEYWORDS } from '../../../map_constant';
 
-import { DefaultModal, InfoModal, ApproveConfirmModal, HistoryModal } from './HOC';
+import { DefaultModal, InfoModal, ApproveConfirmModal, HistoryModal, ImageModal } from './HOC';
 import './modal.scss';
 
 const IS_REACT_16 = !!ReactDOM.createPortal;
@@ -10,20 +10,29 @@ const IS_REACT_16 = !!ReactDOM.createPortal;
 const modalDefaultProps = {
 	approval: {
 		modalTitle: 'CERTIFICATE GENERATION',
-		tooltips: [ 'Your profile is clear.', 'Your information are authenticated.', 'You passed our review.' ]
+		tooltips: [
+			'User onboarded successfully',
+			'User information have been thoroughly verified.',
+			'The selfie matches the picture on the passport.'
+		]
 	},
 	'send-feedback': {
-		modalTitle: 'FEEDBACK TO USER',
+		modalTitle: 'SUBMIT FEEDBACK TO USER',
 		tooltips: [
-			'We need your update on the profile.',
-			'Some information are not clear.',
-			'Please see details at each rejected field.'
+			'Some field have been rejected, please see details.',
+			'Pictures are not clear enough.',
+			'You must be at least 18 years to use our service.'
 		]
 	},
 	rejected: {
-		modalTitle: 'GIVE ME THE REASON',
+		modalTitle: 'EXPLAIN REASON FOR REJECTION',
 		fieldChecking: (title) => MAP_KEYWORDS[title],
-		tooltips: [ 'This is not clear.', 'This could not be found.', 'This is out of date.' ]
+		tooltips: [
+			'Data seems to be fake.',
+			'Picture not clear.',
+			'Information does not match the passport',
+			'US Residents are not allowed to use the service'
+		]
 	},
 	info: {
 		modalTitle: 'Confirm'
@@ -35,11 +44,14 @@ const modalDefaultProps = {
 
 export function renderModal(config) {
 	let div = document.createElement('div');
-	div.id = 'kyc-modal';
-	document.body.appendChild(div);
 	function close(args = {}) {
 		if (IS_REACT_16) {
-			render({ ...config, close, visible: false, afterClose: destroy.bind(this, ...args) });
+			render({
+				...config,
+				close,
+				visible: false,
+				afterClose: destroy.bind(this, ...args)
+			});
 		} else {
 			destroy(args);
 		}
@@ -66,15 +78,32 @@ export function renderModal(config) {
 						modalDescription={
 							props.itemChecking ? modalDefaultProps['rejected'].fieldChecking(props.itemChecking) : false
 						}
+						className="modal-kyc-detail modal-default"
 						onCancel={destroy.bind(this)}
 						close={destroy.bind(this)}
 					/>,
-					document.getElementById('kyc-modal')
+					div
 				);
 				break;
 			case 'confirm':
 				ReactDOM.render(
-					<ApproveConfirmModal {...props} onCancel={destroy.bind(this)} close={destroy.bind(this)} />,
+					<ApproveConfirmModal
+						{...props}
+						className="modal-kyc-detail modal-confirm"
+						onCancel={destroy.bind(this)}
+						close={destroy.bind(this)}
+					/>,
+					div
+				);
+				break;
+			case 'zoom':
+				ReactDOM.render(
+					<ImageModal
+						{...props}
+						className="modal-kyc-detail modal-zoom"
+						onCancel={destroy.bind(this)}
+						close={destroy.bind(this)}
+					/>,
 					div
 				);
 				break;
@@ -82,6 +111,7 @@ export function renderModal(config) {
 				ReactDOM.render(
 					<InfoModal
 						{...props}
+						className="modal-kyc-detail modal-info"
 						onCancel={destroy.bind(this)}
 						close={destroy.bind(this)}
 						{...modalDefaultProps[props.type]}
@@ -95,7 +125,7 @@ export function renderModal(config) {
 						{...props}
 						onCancel={destroy.bind(this)}
 						close={destroy.bind(this)}
-						className="modal-history"
+						className="modal-kyc-detail modal-history"
 						modalTitle={
 							props.itemChecking ? modalDefaultProps['history'].historyTitle(props.itemChecking) : ''
 						}
@@ -106,10 +136,12 @@ export function renderModal(config) {
 		}
 	}
 
-	render({ ...config, visible: true, close });
-	return {
-		destroy: close
-	};
+	render({
+		...config,
+		visible: true,
+		close
+	});
+	return { destroy: close };
 }
 
 export { DefaultModal, InfoModal, ApproveConfirmModal, HistoryModal };

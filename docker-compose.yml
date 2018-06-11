@@ -4,9 +4,6 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-      args:
-        REACT_APP_API_HOST: ${REACT_APP_API_HOST}
-        REACT_APP_ENV: ${REACT_APP_ENV}
    
     command: npm run prod  
     ports:

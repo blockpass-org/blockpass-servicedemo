@@ -1,5 +1,5 @@
 import React from 'react';
-import CertificateList from '../../../../components/StoryBookComponents/CertificateList';
+import CertificateList from '../../../../../components/StoryBookComponents/CertificateList';
 
 const KYCCertificateInfo = ({dataCert, reviewEvt, certificateItemCount, id}) => (certificateItemCount > 0 && <div className="kyc-process">
   <div className="kyc-process__profile__title">

@@ -1,8 +1,7 @@
 import stores from '../stores';
-import certStandalize from "./certsStandalize";
+import certStandalize from './certsStandalize';
 
 export function translatePictureUrl(itm) {
-	console.log(itm, 'uti');
 	return stores.ApplicationStore.getStorageUrl(itm);
 }
 
@@ -27,13 +26,7 @@ export function camelize(str) {
 	});
 }
 
-export function convertToMongoDbQuery({
-	results,
-	page,
-	sortField,
-	sortOrder,
-	...filters
-}) {
+export function convertToMongoDbQuery({ results, page, sortField, sortOrder, ...filters }) {
 	let queryInfo = {};
 
 	if (results !== undefined) {
@@ -69,13 +62,19 @@ export function convertToMongoDbQuery({
 			queryInfo.query[key] = {
 				$in: val
 			};
-		else if (key === '_id') queryInfo.query[key] = val;
-		else
+		else if (key === 'createdAt' || key === 'updatedAt') {
+			if (val.startDate || val.endDate) {
+				queryInfo.query[key] = {
+					$lte: val.endDate,
+					$gte: val.startDate
+				};
+			}
+		} else
 			queryInfo.query[key] = {
-				$regex: `^${val}`
+				$regex: `^${val}`,
+				$options: 'i'
 			};
 	});
-
 	return queryInfo;
 }
 
@@ -107,9 +106,7 @@ export function dateFormat(dateString) {
 		10: 'November',
 		11: 'December'
 	};
-	return `${date.getDate()} ${MONTH_KEYS[
-		date.getMonth()
-	]} ${date.getFullYear()}`;
-};
+	return `${date.getDate()} ${MONTH_KEYS[date.getMonth()]} ${date.getFullYear()}`;
+}
 
-export { certStandalize }
+export { certStandalize };

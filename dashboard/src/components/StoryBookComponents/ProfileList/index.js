@@ -63,7 +63,8 @@ const ProfileList = ({
 	showModal,
 	status,
 	historyInfo,
-	waitingUserResubmit
+	waitingUserResubmit,
+	zoomEvt
 }) => {
 	console.log(data, 'inlist');
 	const dataStructure = getCategoryList(data, getCategory);
@@ -84,6 +85,7 @@ const ProfileList = ({
 							inProcess={status}
 							historyData={getHistory(item.keyName)}
 							waitingUserResubmit={waitingUserResubmit}
+							zoomEvt={zoomEvt}
 						/>
 					))}
 				</Item>

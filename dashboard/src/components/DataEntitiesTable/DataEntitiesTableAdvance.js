@@ -1,195 +1,104 @@
-import React, {Component} from 'react';
-import {Table, Input, Icon, Button} from 'antd';
-import {convertToMongoDbQuery} from '../../utils';
+import React, { Component } from 'react';
+import { Table } from 'antd';
+import { convertToMongoDbQuery } from '../../utils';
+import './table.scss';
+import moment from 'moment';
+import { isEqual, isEmpty } from 'lodash';
 
-const customFilterDropdownStyle = {
-  padding: '8px',
-  borderRadius: '6px',
-  background: '#fff',
-  boxShadow: '0 1px 6px rgba(0, 0, 0, .2)'
-};
-
-const customFilterApplyButton = {
-  width: '130px',
-  marginRight: '8px'
-};
-
-const Footer = ({total}) => {
-  return (
-    <div>
-      <b>Total:
-      </b>
-      {`${total || 0}`}
-    </div>
-  );
+const Footer = ({ total }) => {
+	return (
+		<div>
+			<b>Total:</b>
+			{`${total || 0}`}
+		</div>
+	);
 };
 
 class DataEntitiesTableAdvance extends Component {
-  state = {
-    data: [],
-    pagination: {},
-    loading: false,
-    searchText: {},
-    filtered: {}
-  };
+	state = {
+		data: [],
+		pagination: {},
+		loading: false
+	};
 
-  componentDidMount() {
-    this.fetchData();
-  }
+	componentDidMount() {
+		this.fetchData();
+	}
 
-  handleTableChange = (pagination, filters, sorter) => {
-    const pager = {
-      ...this.state.pagination
-    };
-    pager.current = pagination.current;
+	fetchData = async (params = {}) => {
+		const { refreshData, filters = {} } = this.props;
+		const mongoQuery = convertToMongoDbQuery(isEmpty(params) ? filters : params);
 
-    this.setState({pagination: pager});
+		// {results: 10, page: 4, sortField: undefined, sortOrder: undefined, gender:
+		// Array(0)}
+		console.log('params:', params, mongoQuery);
+		this.setState({ loading: true });
 
-    this.fetchData({
-      results: pagination.pageSize,
-      page: pagination.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      ...filters
-    });
-  };
+		// handle external refresh data
+		let response = await refreshData(mongoQuery);
+		if (response == null) {
+			return this.setState({ loading: false });
+		}
 
-  fetchData = async(params = {}) => {
-    const {refreshData} = this.props;
-    const mongoQuery = convertToMongoDbQuery(params);
+		const data = response.body;
+		const pagination = {
+			...this.state.pagination
+		};
+		// Read total count from server
+		pagination.total = parseInt(response.headers['x-total-count'], 10);
+		this.setState({ loading: false, data: data, pagination });
+	};
 
-    // {results: 10, page: 4, sortField: undefined, sortOrder: undefined, gender:
-    // Array(0)}
-    console.log('params:', params, mongoQuery);
-    this.setState({loading: true});
+	/**
+ * format time for table
+ *
+ * @param  {String} format format of moment
+ * @param  {String} time time
+ *
+ */
+	_translateMoment = (format) => (time) => moment(time).format(format);
 
-    // handle external refresh data
-    let response = await refreshData(mongoQuery);
-    if (response == null) {
-      return this.setState({loading: false});
-    }
+	// shouldComponentUpdate(nextProps, nextState) {   return isEqual(nextProps,
+	// this.props); }
+	componentWillReceiveProps(nextProps) {
+		if (!isEqual(nextProps, this.props)) {
+			this.fetchData(nextProps.filters);
+		}
+	}
 
-    const data = response.body;
-    const pagination = {
-      ...this.state.pagination
-    };
-    // Read total count from server
-    pagination.total = parseInt(response.headers['x-total-count'], 10);
-    this.setState({loading: false, data: data, pagination});
-  };
-
-  _onInputChange = (column, e) => {
-    const {searchText} = this.state;
-    const val = e.target.value;
-
-    this.setState({
-      searchText: {
-        ...searchText,
-        [column]: val
-      }
-    });
-  };
-
-  _onSearch = (column) => {
-    const customFilter = {};
-    const {searchText, filtered} = this.state;
-
-    Object
-      .keys(searchText)
-      .forEach((key) => {
-        const val = searchText[key];
-        if (val !== '' && val !== null) 
-          customFilter[key] = searchText[key];
-        }
-      );
-
-    const val = customFilter[column];
-    this.setState({
-      filtered: {
-        ...filtered,
-        [column]: val !== '' && val !== undefined
-      }
-    });
-
-    this.fetchData({
-      ...customFilter
-    });
-  };
-
-  _enhanceCustomSearch(column) {
-    const key = column.dataIndex;
-    let searchInput;
-    let visibleControlFields = `filterDropdownVisible_${key}`;
-    let filteredControlFields = `${key}`;
-
-    return {
-      ...column,
-      filterDropdown: (
-        <div style={customFilterDropdownStyle}>
-          <Input
-            style={customFilterApplyButton}
-            ref={(ele) => (searchInput = ele)}
-            placeholder="filter by..."
-            value={this.state.searchText[key]}
-            onChange={(e) => this._onInputChange(column.dataIndex, e)}
-            onPressEnter={(e) => this._onSearch(column.dataIndex)}/>
-          <Button type="primary" onClick={(e) => this._onSearch(column.dataIndex)}>
-            Apply
-          </Button>
-        </div>
-      ),
-      filterIcon: (<Icon
-        type="search"
-        style={{
-        color: this.state.filtered[filteredControlFields]
-          ? '#108ee9'
-          : '#aaa'
-      }}/>),
-      filterDropdownVisible: this.state[visibleControlFields],
-      onFilterDropdownVisibleChange: (visible) => {
-        this.setState({
-          [visibleControlFields]: visible
-        }, () => searchInput && searchInput.focus());
-      }
-    };
-  }
-
-  _explandCustomSearch(columns) {
-    return columns.map((itm) => {
-      if (itm.customFilter) 
-        return this._enhanceCustomSearch(itm);
-      return itm;
-    });
-  }
-
-  render() {
-    const {columns} = this.props;
-    const {data, pagination, loading} = this.state;
-    const enhanceColumns = this._explandCustomSearch(columns);
-
-    return (
-      <div style={{
-        display: 'flex'
-      }}>
-        <div
-          style={{
-          minHeight: 'calc(100vh - 90px)',
-          width: '75%',
-          marginLeft: '16.66666667%'
-        }}>
-          <Table
-            columns={enhanceColumns}
-            rowKey={(record) => record._id}
-            dataSource={data}
-            pagination={pagination}
-            loading={loading}
-            onChange={this.handleTableChange}
-            footer={(_) => <Footer {...pagination}/>}
-            className="KYC-list"/>
-        </div>
-      </div>
-    );
-  }
+	render() {
+		const { columns, enhanceData, onRowClickEvent } = this.props;
+		const { data, pagination, loading } = this.state;
+		const dataSource = enhanceData ? enhanceData(data) : data;
+		return (
+			<div
+				style={{
+					display: 'flex'
+				}}
+			>
+				<div
+					style={{
+						minHeight: 'calc(100vh - 90px)',
+						width: '100%'
+					}}
+					className="kyc-list__table"
+				>
+					<Table
+						columns={columns}
+						rowKey={(record) => record._id}
+						dataSource={dataSource}
+						pagination={pagination}
+						loading={loading}
+						footer={(_) => <Footer {...pagination} />}
+						className="kyc-list"
+						onRow={(record) => ({
+							onClick: (e) => (onRowClickEvent ? onRowClickEvent(record._id) : console.log(record._id))
+						})}
+					/>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default DataEntitiesTableAdvance;

@@ -6,24 +6,16 @@ import { MAP_ADDRESS_ORDER } from '../../../pages/NewKYC/map_constant';
 import classnames from 'classnames';
 import './profile-item-wrapper.scss';
 import '../theme/index.scss';
-import {
-	Title,
-	Field,
-	FieldController,
-	HistoryControl,
-	HistoryArea,
-	ReasonArea,
-	AddressComp
-} from './components';
+import { Title, Field, FieldController, HistoryControl, HistoryArea, ReasonArea, AddressComp } from './components';
 
 /**
  * parse address data from json
  *
  * @param  {object} dataValue value of this field
  * @param  {string} keyName value of keyName
- * 
+ *
  * @return {Object}
- * 
+ *
  */
 
 export const getAddressValue = ({ keyName, dataValue }) => {
@@ -46,9 +38,9 @@ export const getAddressValue = ({ keyName, dataValue }) => {
  *
  * @param  {object} addressData value of address field
  * @param  {string} keyName value of keyName
- * 
+ *
  * @return {Object}
- * 
+ *
  */
 
 export const getAddressKeyMap = ({ addressData, keyName }) => {
@@ -71,20 +63,16 @@ const ProfileItem = ({
 	inProcess,
 	historyData,
 	history,
-	waitingUserResubmit
+	waitingUserResubmit,
+	zoomEvt
 }) => {
 	const { lastSubmitData } = history;
 	let addressHistory = null;
 	let addressData = null;
 	let addressHistoryMap = null;
 	let addressMap = null;
-	const isFirstTimeReview = !history.logStory.some(
-		(item) => item.message === 'field-decision'
-	);
-	const checkDisabledField =
-		inProcess === 'inreview' &&
-		lastSubmitData === null &&
-		!waitingUserResubmit;
+	const isFirstTimeReview = !history.logStory.some((item) => item.message === 'field-decision');
+	const checkDisabledField = inProcess === 'inreview' && lastSubmitData === null && !waitingUserResubmit;
 	const wrapperClassName = classnames({
 		'profile-item__content-wrapper': true,
 		image: type === 'image',
@@ -96,15 +84,9 @@ const ProfileItem = ({
 		addressData = getAddressValue({ keyName, dataValue });
 		addressMap = getAddressKeyMap({ addressData, keyName });
 		if (lastSubmitData) {
-			addressHistory = getAddressValue({
-				keyName,
-				dataValue: lastSubmitData.value
-			});
+			addressHistory = getAddressValue({ keyName, dataValue: lastSubmitData.value });
 
-			addressHistoryMap = getAddressKeyMap({
-				addressData: addressHistory,
-				keyName
-			});
+			addressHistoryMap = getAddressKeyMap({ addressData: addressHistory, keyName });
 		}
 	}
 
@@ -113,9 +95,33 @@ const ProfileItem = ({
 			{keyName !== 'address' && <Title title={title} />}
 			<Row className={wrapperClassName}>
 				{keyName !== 'address' ? (
-					<Field type={type} dataValue={dataValue} status={status} />
+					<Field
+						type={type}
+						dataValue={dataValue}
+						status={status}
+						zoomEvt={() =>
+							zoomEvt({
+								dataValue,
+								status,
+								reason,
+								keyName,
+								disabled,
+								inProcess,
+								checkDisabledField,
+								isFirstTimeReview
+							})}
+						inProcess={inProcess}
+						onChangeHandle={onChangeHandle}
+						disabledStatus={checkDisabledField}
+						isFirstTimeReview={isFirstTimeReview}
+					/>
 				) : (
-					<Col span={16} style={{ marginRight: '8px' }}>
+					<Col
+						span={16}
+						style={{
+							marginRight: '8px'
+						}}
+					>
 						{addressMap &&
 							addressMap.map((item, index) => (
 								<AddressComp
@@ -128,20 +134,18 @@ const ProfileItem = ({
 									isFirstTimeReview={isFirstTimeReview}
 								/>
 							))}
-						<div style={{ marginTop: '10px' }}>
+						<div
+							style={{
+								marginTop: '10px'
+							}}
+						>
 							{addressHistoryMap &&
 								inProcess !== 'approved' &&
 								addressHistoryMap.map((item, index) => (
 									<Row key={index}>
-										<h4
-											className={`profile-item__history-field address`}
-										>
-											{item.title}
-										</h4>
+										<h4 className={`profile-item__history-field address`}>{item.title}</h4>
 										<Col span={24}>
-											<div
-												className={`profile-item__history-field ${lastSubmitData.status}`}
-											>
+											<div className={`profile-item__history-field ${lastSubmitData.status}`}>
 												<p>{item.value}</p>
 											</div>
 										</Col>
@@ -157,7 +161,7 @@ const ProfileItem = ({
 					disabledStatus={checkDisabledField}
 					isFirstTimeReview={isFirstTimeReview}
 				/>
-				<HistoryControl keyName={keyName} showModal={showModal} />
+				<HistoryControl keyName={keyName} showModal={showModal} zoomEvt={zoomEvt} />
 			</Row>
 			<ReasonArea
 				reason={reason}
@@ -167,16 +171,10 @@ const ProfileItem = ({
 				isFirstTimeReview={isFirstTimeReview}
 				lastSubmitData={!!history.lastSubmitData}
 				inProcess={inProcess}
-			/>
+			/>{' '}
 			{lastSubmitData &&
 			inProcess !== 'approved' &&
-			keyName !== 'address' && (
-				<HistoryArea
-					{...lastSubmitData}
-					type={type}
-					onChangeHandle={onChangeHandle}
-				/>
-			)}
+			keyName !== 'address' && <HistoryArea {...lastSubmitData} type={type} onChangeHandle={onChangeHandle} />}
 		</div>
 	);
 };

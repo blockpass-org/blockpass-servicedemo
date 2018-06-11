@@ -1,6 +1,6 @@
 import React from 'react';
 import './LeftSideBar.scss';
-import { MAP_KEYWORDS } from '../../../map_constant';
+import { MAP_KEYWORDS } from '../../../../map_constant';
 import { Icon } from 'antd';
 
 const MAP_ORDER_LIST = [

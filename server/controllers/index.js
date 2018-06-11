@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+router.use('/', require('./web-env'))
 router.use("/healthCheck", require('./healthCheck'))
 router.use("/blockpass", require('./blockPass'))
 router.use("/auth", require('./auth'))

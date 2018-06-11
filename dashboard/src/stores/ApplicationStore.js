@@ -7,9 +7,9 @@ export default class ApplicationStore {
 		this._auth = auth;
 		this.querySetting();
 	}
-	isDev = process.env.REACT_APP_ENV !== 'production';
+	isDev = window.env.REACT_APP_ENV !== 'production';
 	@observable isLoading = false;
-	@observable hostUrl = process.env.REACT_APP_API_HOST || '';
+	@observable hostUrl = window.env.API_HOST || '';
 	@observable appSetting = [];
 
 	getStorageUrl(id) {

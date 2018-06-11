@@ -34,6 +34,6 @@ const WrapperComponent = enhanceModal({
 	footer: InfoSubmitArea
 })(Modal);
 
-const InfoModal = (props) => <WrapperComponent {...props} className="modal-info" />;
+const InfoModal = (props) => <WrapperComponent {...props} className="modal-kyc-detail modal-info" />;
 
 export default InfoModal;

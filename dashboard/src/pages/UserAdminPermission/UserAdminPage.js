@@ -122,6 +122,17 @@ export default class UserPage extends Component {
 		this.formRef = formRef;
 	};
 
+	/**
+ * redirect to KYC detail
+ *
+ * @param  {string} id id of kyc
+ *
+ */
+	_redirect = (id) => {
+		const { history } = this.props;
+		history.push(`/permission/${id}`);
+	};
+
 	render() {
 		return (
 			<div
@@ -132,22 +143,26 @@ export default class UserPage extends Component {
 				}}
 			>
 				<Button
-					icon="plus-circle-o"
+					icon="plus"
 					onClick={this._showModal}
 					style={{
-						padding: '15px 30px',
-						position: 'absolute',
-						top: '50px',
-						left: '50px'
+						margin: '0 20px',
+						width: '50px',
+						height: '50px',
+						borderRadius: '50%',
+						fontSize: '30px',
+						fontWeight: '900',
+						position: 'fixed',
+						bottom: '50px',
+						right: '50px'
 					}}
-				>
-					Add
-				</Button>
+				/>
 
 				<DataEntitiesTableAdvance
 					ref={(tableRef) => (this._tableRef = tableRef)}
 					columns={columns}
 					refreshData={this._refreshData}
+					onRowClickEvent={this._redirect}
 				/>
 				<AddNewAdminDialog
 					wrappedComponentRef={this._saveFormRef}

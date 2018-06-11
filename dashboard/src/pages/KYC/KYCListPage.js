@@ -13,7 +13,7 @@ const selectFields = {
 const STATUS_COLOR_MAPPING = {
   approved: '#87d068',
   inreview: 'blue',
-  waiting: 'yellow'
+  waiting: 'volcano'
 };
 
 const columns = [
@@ -95,8 +95,10 @@ export default class UserPage extends Component {
       ...queryModel,
       select: selectFields,
       sort: {
-        status: -1,
-        updatedAt: -1
+        status: 1,
+        updatedAt: -1,
+        'identities.email': -1,
+        _id: -1
       }
     });
   };

@@ -11,7 +11,7 @@ class LoginUserIcon extends React.Component {
         const { ApplicationStore, Auth } = this.props;
         return <Menu>
             <Menu.Item>
-                <Link to="/setting">Account Setting</Link>
+                <Link to="/setting">Account Settings</Link>
             </Menu.Item>
             <Menu.Item>
                 <a onClick={_ => {

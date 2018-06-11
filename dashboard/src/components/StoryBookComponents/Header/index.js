@@ -16,7 +16,7 @@ const HeaderLayout = () => {
 				<Col span={16} className="header__body">
 					<div className="header__body-wrapper">
 						<h4 className="header__title">
-							KYC
+							USER LIST
 						</h4>
 						<div className="header__right">
 							<div className="header__user-info">

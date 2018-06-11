@@ -6,7 +6,7 @@ const columnsTable = [
 		title: 'DATE',
 		dataIndex: 'date',
 		key: 'date',
-		width: '125px'
+		width: '130px'
 	},
 	{
 		title: 'ACTIVITIES',
@@ -14,7 +14,7 @@ const columnsTable = [
 		key: 'status',
 		render: (status) => {
 			switch (status) {
-				case 'accepted':
+				case 'approved':
 					return <span className="status-accepted">Accepted</span>;
 				case 'rejected':
 					return <span className="status-rejected">Rejected</span>;
